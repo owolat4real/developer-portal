@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboard — CareerStudioMax Developer Cloud</title>
+<style>
+:root{--bg:#0a0a0f;--s:#12121a;--b:#1e1e2e;--t:#e2e8f0;--m:#94a3b8;--a:#6366f1;--ah:#818cf8;--g:#10b981;--r:#ef4444;--y:#f59e0b;--cb:#0d1117;--f:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--mono:'Fira Code',Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t);font-family:var(--f);line-height:1.6;min-height:100vh}
+a{color:var(--a);text-decoration:none}a:hover{color:var(--ah)}
+nav{display:flex;justify-content:space-between;align-items:center;padding:14px 32px;border-bottom:1px solid var(--b);background:rgba(10,10,15,.95);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100}
+.logo{font-size:17px;font-weight:700}.logo span{color:var(--a)}
+.nav-links{display:flex;gap:20px;font-size:14px}.nav-links a{color:var(--m)}.nav-links a:hover{color:var(--t)}
+.btn{padding:7px 16px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:6px;transition:all .15s}
+.btn-primary{background:var(--a);color:#fff}.btn-primary:hover{background:var(--ah)}
+.btn-outline{background:transparent;border:1px solid var(--b);color:var(--m)}.btn-outline:hover{border-color:var(--a);color:var(--a)}
+.btn-danger{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#f87171}.btn-danger:hover{background:rgba(239,68,68,.2)}
+
+/* Login gate */
+#login-gate{max-width:420px;margin:80px auto;padding:0 20px}
+#login-gate h1{font-size:28px;font-weight:800;margin-bottom:8px}
+#login-gate p{color:var(--m);margin-bottom:28px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13px;color:var(--m);margin-bottom:5px}
+.field input{width:100%;background:var(--s);border:1px solid var(--b);color:var(--t);padding:10px 14px;border-radius:6px;font-size:14px;outline:none}
+.field input:focus{border-color:var(--a)}
+.field input::placeholder{color:#475569}
+.error-msg{color:#f87171;font-size:13px;margin-top:8px;display:none}
+
+/* Dashboard */
+#dashboard{display:none;max-width:1000px;margin:0 auto;padding:40px 32px}
+.dash-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:36px}
+.dash-header h1{font-size:28px;font-weight:800;letter-spacing:-.5px}
+.dash-header p{color:var(--m);font-size:14px;margin-top:4px}
+
+/* Stats row */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.stat{background:var(--s);border:1px solid var(--b);border-radius:10px;padding:20px}
+.stat-label{font-size:12px;color:var(--m);margin-bottom:6px}
+.stat-val{font-size:28px;font-weight:800;letter-spacing:-1px}
+.stat-sub{font-size:12px;color:var(--m);margin-top:4px}
+.stat-green .stat-val{color:var(--g)}
+.stat-blue .stat-val{color:var(--a)}
+.stat-yellow .stat-val{color:var(--y)}
+
+/* Usage bar */
+.usage-bar-wrap{background:var(--b);border-radius:999px;height:8px;margin-top:10px;overflow:hidden}
+.usage-bar{height:100%;border-radius:999px;background:var(--a);transition:width .5s ease}
+.usage-bar.danger{background:var(--r)}
+.usage-bar.warn{background:var(--y)}
+
+/* Cards */
+.card{background:var(--s);border:1px solid var(--b);border-radius:10px;padding:24px;margin-bottom:20px}
+.card-title{font-weight:700;font-size:16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+
+/* Key display */
+.key-display{background:var(--cb);border:1px solid var(--b);border-radius:6px;padding:12px 16px;font-family:var(--mono);font-size:13px;display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.key-masked{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--m)}
+.copy-btn{background:var(--s);border:1px solid var(--b);color:var(--m);padding:4px 10px;border-radius:4px;font-size:11px;cursor:pointer}
+.copy-btn:hover{color:var(--t);border-color:var(--a)}
+
+/* Tier badge */
+.tier-badge{padding:4px 12px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.5px}
+.tier-FREE{background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3)}
+.tier-PRO{background:rgba(99,102,241,.15);color:var(--ah);border:1px solid rgba(99,102,241,.3)}
+.tier-PLUS{background:rgba(245,158,11,.15);color:var(--y);border:1px solid rgba(245,158,11,.3)}
+.tier-ENTERPRISE{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3)}
+
+/* Table */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:8px 12px;border-bottom:1px solid var(--b);color:var(--m);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+td{padding:10px 12px;border-bottom:1px solid rgba(30,30,46,.5);color:var(--m);vertical-align:top}
+td:first-child{font-family:var(--mono);font-size:12px;color:var(--ah)}
+tr:last-child td{border-bottom:none}
+.status-ok{color:var(--g);font-weight:700}
+.status-err{color:var(--r);font-weight:700}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:200;display:none}
+.modal{background:var(--s);border:1px solid var(--b);border-radius:12px;padding:28px;max-width:440px;width:100%;margin:20px}
+.modal h3{font-size:18px;font-weight:700;margin-bottom:8px}
+.modal p{color:var(--m);font-size:14px;margin-bottom:20px}
+.modal-key{background:var(--cb);border:1px solid var(--g);border-radius:6px;padding:14px;font-family:var(--mono);font-size:13px;color:#34d399;word-break:break-all;margin-bottom:16px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">CareerStudioMax <span>Developer Cloud</span></a>
+  <div class="nav-links"><a href="/docs">Docs</a><a href="/playground">Playground</a><a href="/pricing">Pricing</a></div>
+  <button class="btn btn-outline" onclick="logout()" id="logout-btn" style="display:none">Sign out</button>
+</nav>
+
+<!-- Login gate -->
+<div id="login-gate">
+  <h1>Sign in to Dashboard</h1>
+  <p>Enter your developer ID and API key to view usage and manage your keys.</p>
+  <div class="field">
+    <label>Developer ID</label>
+    <input id="login-id" type="text" placeholder="dev_abc123..." autocomplete="off">
+  </div>
+  <div class="field">
+    <label>API Key</label>
+    <input id="login-key" type="password" placeholder="csk_free_v1_..." autocomplete="off">
+  </div>
+  <button class="btn btn-primary" onclick="login()" style="width:100%;justify-content:center;padding:11px">Sign in →</button>
+  <div class="error-msg" id="login-error"></div>
+  <div style="margin-top:20px;font-size:13px;color:var(--m)">No account? <a href="/docs/quickstart">Register for free →</a></div>
+</div>
+
+<!-- Dashboard -->
+<div id="dashboard">
+  <div class="dash-header">
+    <div>
+      <h1 id="dash-name">Dashboard</h1>
+      <p id="dash-email" style="color:var(--m);font-size:14px"></p>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <span class="tier-badge" id="tier-badge">FREE</span>
+      <a href="/pricing" class="btn btn-primary" id="upgrade-btn">Upgrade plan</a>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat stat-blue">
+      <div class="stat-label">Requests today</div>
+      <div class="stat-val" id="stat-today">—</div>
+      <div class="stat-sub" id="stat-limit">of — limit</div>
+      <div class="usage-bar-wrap"><div class="usage-bar" id="usage-bar" style="width:0%"></div></div>
+    </div>
+    <div class="stat stat-green">
+      <div class="stat-label">Remaining today</div>
+      <div class="stat-val" id="stat-remaining">—</div>
+      <div class="stat-sub">resets at midnight UTC</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">RPM limit</div>
+      <div class="stat-val" id="stat-rpm">—</div>
+      <div class="stat-sub">requests per minute</div>
+    </div>
+    <div class="stat stat-yellow">
+      <div class="stat-label">Current tier</div>
+      <div class="stat-val" id="stat-tier">FREE</div>
+      <div class="stat-sub" id="stat-model">careerlm-flash</div>
+    </div>
+  </div>
+
+  <!-- API Keys -->
+  <div class="card">
+    <div class="card-title">
+      API Keys
+      <button class="btn btn-outline" onclick="rotateKey()" id="rotate-btn">Rotate key</button>
+    </div>
+    <div id="keys-list">Loading...</div>
+  </div>
+
+  <!-- Recent calls -->
+  <div class="card">
+    <div class="card-title">Recent API calls</div>
+    <table>
+      <thead><tr><th>Endpoint</th><th>Model</th><th>Status</th><th>Tokens</th><th>When</th></tr></thead>
+      <tbody id="calls-table"><tr><td colspan="5" style="color:#475569">Loading...</td></tr></tbody>
+    </table>
+  </div>
+
+  <!-- Danger zone -->
+  <div class="card" style="border-color:rgba(239,68,68,.3)">
+    <div class="card-title" style="color:#f87171">Danger zone</div>
+    <p style="font-size:13px;color:var(--m);margin-bottom:14px">Deleting your key immediately revokes all access. This cannot be undone.</p>
+    <button class="btn btn-danger" onclick="showDeleteModal()">Delete API key</button>
+  </div>
+</div>
+
+<!-- New key modal (shown after rotate) -->
+<div class="modal-overlay" id="new-key-modal">
+  <div class="modal">
+    <h3>New API key generated</h3>
+    <p>Copy this key now — it will not be shown again.</p>
+    <div class="modal-key" id="new-key-value"></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="copyNewKey()">Copy key</button>
+      <button class="btn btn-primary" onclick="closeModal('new-key-modal')">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete confirm modal -->
+<div class="modal-overlay" id="delete-modal">
+  <div class="modal">
+    <h3>Delete API key?</h3>
+    <p>This immediately revokes access for anything using this key. You can register a new developer account to get a fresh key.</p>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('delete-modal')">Cancel</button>
+      <button class="btn btn-danger" onclick="deleteKey()">Yes, delete key</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = 'http://localhost:3005/v1';
+let session = null; // { developerId, keyHash, apiKey }
+
+function showError(msg) {
+  const el = document.getElementById('login-error');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+async function login() {
+  const id  = document.getElementById('login-id').value.trim();
+  const key = document.getElementById('login-key').value.trim();
+  if (!id || !key) { showError('Both fields are required.'); return; }
+
+  try {
+    const resp = await fetch(`${API}/developer/usage/${id}`, {
+      headers: { 'X-Api-Key': key }
+    });
+    if (!resp.ok) {
+      const d = await resp.json().catch(() => ({}));
+      showError(d?.error?.message || `Error ${resp.status} — check your developer ID and key`);
+      return;
+    }
+    const data = await resp.json();
+    session = { developerId: id, apiKey: key, keys: data.keys || [] };
+    sessionStorage.setItem('clm_session', JSON.stringify(session));
+    showDashboard(data);
+  } catch (e) {
+    showError(`Cannot reach API (is it running on port 3005?)\n${e.message}`);
+  }
+}
+
+function showDashboard(data) {
+  document.getElementById('login-gate').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  document.getElementById('logout-btn').style.display = 'inline-flex';
+
+  // Header
+  document.getElementById('dash-name').textContent = data.developer?.name || 'Developer';
+  document.getElementById('dash-email').textContent = data.developer?.email || '';
+
+  // Tier
+  const tier = data.tier || 'FREE';
+  document.getElementById('tier-badge').textContent = tier;
+  document.getElementById('tier-badge').className = `tier-badge tier-${tier}`;
+  document.getElementById('stat-tier').textContent = tier;
+  document.getElementById('stat-model').textContent =
+    tier === 'FREE' ? 'careerlm-flash' :
+    tier === 'PRO' ? 'careerlm-flash + standard' :
+    'All models';
+
+  // Stats — today_requests/daily_limit are flat fields on the response, and
+  // daily_limit is the string 'unlimited' for Enterprise (not a numeric
+  // sentinel), matching what GET /usage/:developerId actually sends.
+  const today     = data.today_requests ?? 0;
+  const limit     = data.daily_limit === 'unlimited' ? '∞' : (data.daily_limit ?? 1000);
+  const remaining = data.remaining === 'unlimited' ? '∞' : (data.remaining ?? (limit === '∞' ? '∞' : limit - today));
+  document.getElementById('stat-today').textContent     = today.toLocaleString();
+  document.getElementById('stat-limit').textContent     = `of ${typeof limit === 'number' ? limit.toLocaleString() : limit} limit`;
+  document.getElementById('stat-remaining').textContent = typeof remaining === 'number' ? remaining.toLocaleString() : remaining;
+  document.getElementById('stat-rpm').textContent       = data.rpm_limit ?? 10;
+
+  const pct = limit === '∞' ? 0 : Math.min(100, Math.round((today / limit) * 100));
+  const bar = document.getElementById('usage-bar');
+  bar.style.width = pct + '%';
+  bar.className = `usage-bar${pct > 90 ? ' danger' : pct > 70 ? ' warn' : ''}`;
+
+  // Keys — now embedded directly in the usage response
+  renderKeys(data.keys || []);
+
+  // Recent calls
+  renderCalls(data.recent_calls || []);
+}
+
+function renderKeys(keys) {
+  const el = document.getElementById('keys-list');
+  if (!keys.length) { el.innerHTML = '<p style="color:var(--m);font-size:13px">No keys found.</p>'; return; }
+  el.innerHTML = keys.map(k => `
+    <div class="key-display" data-key-id="${k._id}">
+      <div>
+        <div style="font-size:11px;color:var(--m);margin-bottom:3px">${k.name || 'Default key'} &nbsp;·&nbsp; created ${fmtDate(k.createdAt)} &nbsp;·&nbsp; ${(k.totalRequests || 0).toLocaleString()} requests</div>
+        <div class="key-masked">${k.prefix || 'csk_free_v1_...hidden'}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderCalls(calls) {
+  const tbody = document.getElementById('calls-table');
+  if (!calls.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="color:#475569">No API calls yet — try the playground →</td></tr>';
+    return;
+  }
+  tbody.innerHTML = calls.map(c => `
+    <tr>
+      <td>${c.endpoint || '—'}</td>
+      <td style="color:var(--m)">${c.model || '—'}</td>
+      <td class="${c.status >= 400 ? 'status-err' : 'status-ok'}">${c.status || '—'}</td>
+      <td style="color:var(--m)">${c.tokens_used ?? '—'}</td>
+      <td style="color:#475569;font-size:12px">${fmtDate(c.created_at)}</td>
+    </tr>
+  `).join('');
+}
+
+function fmtDate(d) {
+  if (!d) return '—';
+  try { return new Date(d).toLocaleString('en-GB', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }); }
+  catch { return '—'; }
+}
+
+// Refetches the live usage payload (also refreshes session.keys) rather
+// than trusting a possibly-stale in-memory key list before an action that
+// needs the real, current key _id.
+async function fetchUsage() {
+  try {
+    const r = await fetch(`${API}/developer/usage/${session.developerId}`, {
+      headers: { 'X-Api-Key': session.apiKey }
+    });
+    if (!r.ok) return null;
+    return await r.json();
+  } catch { return null; }
+}
+
+async function rotateKey() {
+  if (!confirm('Rotate your API key? Your current key will stop working immediately.')) return;
+  const btn = document.getElementById('rotate-btn');
+  btn.textContent = 'Rotating...';
+  btn.disabled = true;
+  try {
+    const data  = await fetchUsage();
+    const keyId = data?.keys?.[0]?._id;
+    if (!keyId) { alert('Could not find key ID to rotate.'); return; }
+
+    const resp = await fetch(`${API}/developer/keys/${session.developerId}/rotate`, {
+      method: 'POST',
+      headers: { 'X-Api-Key': session.apiKey, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key_id: keyId })
+    });
+    const result = await resp.json();
+    if (!resp.ok) { alert(result?.error?.message || 'Rotation failed'); return; }
+
+    document.getElementById('new-key-value').textContent = result.new_api_key;
+    document.getElementById('new-key-modal').style.display = 'flex';
+    session.apiKey = result.new_api_key;
+    sessionStorage.setItem('clm_session', JSON.stringify(session));
+
+    const fresh = await fetchUsage();
+    if (fresh) renderKeys(fresh.keys || []);
+  } catch (e) {
+    alert('Rotation failed: ' + e.message);
+  } finally {
+    btn.textContent = 'Rotate key';
+    btn.disabled = false;
+  }
+}
+
+function showDeleteModal() { document.getElementById('delete-modal').style.display = 'flex'; }
+
+async function deleteKey() {
+  try {
+    const data  = await fetchUsage();
+    const keyId = data?.keys?.[0]?._id;
+    if (!keyId) { alert('Could not find key to delete.'); return; }
+
+    const resp = await fetch(`${API}/developer/keys/${session.developerId}/${keyId}`, {
+      method: 'DELETE',
+      headers: { 'X-Api-Key': session.apiKey }
+    });
+    if (resp.ok) {
+      closeModal('delete-modal');
+      alert('Key deleted. Signing out.');
+      logout();
+    } else {
+      const d = await resp.json().catch(() => ({}));
+      alert(d?.error?.message || 'Delete failed');
+    }
+  } catch (e) {
+    alert('Delete failed: ' + e.message);
+  }
+}
+
+function copyNewKey() {
+  const key = document.getElementById('new-key-value').textContent;
+  navigator.clipboard.writeText(key);
+  document.querySelector('#new-key-modal .btn-outline').textContent = 'Copied!';
+  setTimeout(() => { document.querySelector('#new-key-modal .btn-outline').textContent = 'Copy key'; }, 2000);
+}
+
+function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+function logout() {
+  sessionStorage.removeItem('clm_session');
+  session = null;
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('login-gate').style.display = 'block';
+  document.getElementById('logout-btn').style.display = 'none';
+  document.getElementById('login-id').value = '';
+  document.getElementById('login-key').value = '';
+}
+
+// Restore session on load
+(function init() {
+  const saved = sessionStorage.getItem('clm_session');
+  if (!saved) return;
+  try {
+    session = JSON.parse(saved);
+    fetch(`${API}/developer/usage/${session.developerId}`, {
+      headers: { 'X-Api-Key': session.apiKey }
+    }).then(r => r.json()).then(data => {
+      if (data && !data.error) showDashboard(data);
+    }).catch(() => {});
+  } catch {}
+})();
+
+document.getElementById('login-key').addEventListener('keydown', e => {
+  if (e.key === 'Enter') login();
+});
+</script>
+</body>
+</html>

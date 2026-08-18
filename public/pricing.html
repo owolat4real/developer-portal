@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pricing — CareerStudioMax Developer Cloud</title>
+<script src="https://js.stripe.com/v3/"></script>
+<style>
+:root{--bg:#0a0a0f;--s:#12121a;--b:#1e1e2e;--t:#e2e8f0;--m:#94a3b8;--a:#6366f1;--ah:#818cf8;--g:#10b981;--r:#ef4444;--y:#f59e0b;--cb:#0d1117;--f:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--mono:'Fira Code','Cascadia Code',Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t);font-family:var(--f);line-height:1.6;min-height:100vh}
+a{color:var(--a);text-decoration:none}a:hover{color:var(--ah)}
+nav{display:flex;justify-content:space-between;align-items:center;padding:16px 40px;border-bottom:1px solid var(--b);position:sticky;top:0;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);z-index:100}
+.logo{font-size:18px;font-weight:700;letter-spacing:-0.5px}.logo span{color:var(--a)}
+.nav-links{display:flex;gap:24px;font-size:14px;color:var(--m)}
+.nav-links a{color:var(--m)}.nav-links a:hover{color:var(--t)}
+.nav-links a.active{color:var(--t)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:8px 18px;border-radius:6px;font-size:14px;font-weight:500;cursor:pointer;border:none;transition:all .15s}
+.btn-primary{background:var(--a);color:#fff}.btn-primary:hover{background:var(--ah);color:#fff}
+.btn-outline{background:transparent;color:var(--t);border:1px solid var(--b)}.btn-outline:hover{border-color:var(--a);color:var(--a)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+
+.head{max-width:900px;margin:0 auto;padding:64px 40px 20px;text-align:center}
+.head h1{font-size:42px;font-weight:800;letter-spacing:-1.5px;margin-bottom:12px}
+.head p{color:var(--m);font-size:16px}
+.session-bar{max-width:900px;margin:0 auto;padding:0 40px;text-align:center;font-size:13px;color:var(--m)}
+.session-bar b{color:var(--t)}
+.session-bar a{margin-left:8px}
+
+.billing-toggle{display:flex;justify-content:center;align-items:center;gap:12px;margin:28px 0 8px}
+.billing-toggle span{font-size:13px;color:var(--m)}
+.billing-toggle span.on{color:var(--t);font-weight:600}
+.switch{width:42px;height:24px;background:var(--b);border-radius:999px;position:relative;cursor:pointer;border:1px solid var(--b)}
+.switch .knob{width:18px;height:18px;background:var(--a);border-radius:50%;position:absolute;top:2px;left:2px;transition:left .15s}
+.switch.annual .knob{left:21px}
+.save-badge{font-size:11px;color:var(--g);font-weight:700;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);padding:2px 8px;border-radius:999px}
+
+.pricing{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1100px;margin:24px auto 0;padding:0 40px}
+.plan{background:var(--s);border:1px solid var(--b);border-radius:12px;padding:28px;display:flex;flex-direction:column}
+.plan.featured{border-color:var(--a);background:rgba(99,102,241,.07)}
+.plan.current{border-color:var(--g)}
+.plan-name{font-weight:700;font-size:18px;margin-bottom:4px}
+.plan-price{font-size:36px;font-weight:800;letter-spacing:-1px;margin:12px 0 4px}
+.plan-price small{font-size:14px;color:var(--m);font-weight:500}
+.plan-period{font-size:13px;color:var(--m);min-height:16px}
+.plan-features{list-style:none;margin:20px 0;display:flex;flex-direction:column;gap:8px;flex:1}
+.plan-features li{font-size:13px;color:var(--m);display:flex;gap:8px}
+.plan-features li::before{content:'✓';color:var(--g);font-weight:700;flex-shrink:0}
+.current-badge{font-size:11px;font-weight:700;color:var(--g);letter-spacing:.5px;margin-bottom:8px}
+.popular-badge{font-size:11px;font-weight:700;color:var(--a);letter-spacing:.5px;margin-bottom:8px}
+
+.faq{max-width:700px;margin:80px auto 0;padding:0 40px 80px}
+.faq h2{font-size:26px;font-weight:700;margin-bottom:24px;letter-spacing:-.5px}
+.faq-item{border-bottom:1px solid var(--b);padding:16px 0}
+.faq-item h3{font-size:15px;font-weight:600;margin-bottom:6px}
+.faq-item p{font-size:14px;color:var(--m)}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:200}
+.modal-overlay.show{display:flex}
+.modal{background:var(--s);border:1px solid var(--b);border-radius:12px;padding:28px;max-width:440px;width:100%;margin:20px}
+.modal h3{font-size:18px;font-weight:700;margin-bottom:6px}
+.modal p.sub{color:var(--m);font-size:13px;margin-bottom:20px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13px;color:var(--m);margin-bottom:5px}
+.field input{width:100%;background:var(--cb);border:1px solid var(--b);color:var(--t);padding:10px 14px;border-radius:6px;font-size:14px;outline:none}
+.field input:focus{border-color:var(--a)}
+#card-element{background:var(--cb);border:1px solid var(--b);border-radius:6px;padding:12px 14px}
+#card-element.StripeElement--focus{border-color:var(--a)}
+#card-errors{color:#f87171;font-size:13px;margin-top:8px;min-height:16px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+.modal-close{position:absolute;top:20px;right:24px;color:var(--m);cursor:pointer;font-size:20px;background:none;border:none}
+.modal{position:relative}
+.success-icon{font-size:40px;text-align:center;margin-bottom:12px}
+
+@media(max-width:900px){.pricing{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.pricing{grid-template-columns:1fr}.nav-links{display:none}h1{font-size:30px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">CareerStudioMax <span>Developer Cloud</span></a>
+  <div class="nav-links">
+    <a href="/docs">Docs</a>
+    <a href="/docs/quickstart">Quickstart</a>
+    <a href="/playground">Playground</a>
+    <a href="/pricing" class="active">Pricing</a>
+    <a href="/dashboard">Dashboard</a>
+  </div>
+  <div style="display:flex;gap:10px">
+    <a href="/dashboard" class="btn btn-outline">Sign in</a>
+    <a href="/docs/quickstart" class="btn btn-primary">Get API key →</a>
+  </div>
+</nav>
+
+<div class="head">
+  <h1>Simple, usage-based pricing</h1>
+  <p>Start free. Upgrade the moment you need more throughput or models — cancel anytime.</p>
+</div>
+
+<div class="session-bar" id="session-bar" style="display:none">
+  Signed in as <b id="session-email">—</b> · current plan <b id="session-tier">FREE</b>
+  <a href="#" onclick="logout();return false">Sign out</a>
+</div>
+<div class="session-bar" id="signin-prompt">
+  <a href="/dashboard">Sign in</a> to upgrade an existing account, or <a href="/docs/quickstart">get a free key</a> to start.
+</div>
+
+<div class="billing-toggle">
+  <span id="lbl-monthly" class="on">Monthly</span>
+  <div class="switch" id="billing-switch" onclick="toggleBilling()"><div class="knob"></div></div>
+  <span id="lbl-annual">Annual</span>
+  <span class="save-badge">2 months free</span>
+</div>
+
+<div class="pricing" id="pricing-grid">
+  <div style="grid-column:1/-1;text-align:center;color:var(--m);padding:40px 0">Loading plans…</div>
+</div>
+
+<div class="faq">
+  <h2>Billing FAQ</h2>
+  <div class="faq-item"><h3>What happens to my API key when I upgrade?</h3><p>Your existing key keeps working — its limits, models, and features update immediately, no rotation needed.</p></div>
+  <div class="faq-item"><h3>Can I downgrade or cancel?</h3><p>Email api@careerstudiomax.com to cancel or change tiers. Your access continues until the end of the current billing period.</p></div>
+  <div class="faq-item"><h3>Is my card information stored on your servers?</h3><p>No — card details go directly to Stripe via their SDK and never touch our backend. We only store your Stripe customer and subscription IDs.</p></div>
+  <div class="faq-item"><h3>What if my bank requires extra verification?</h3><p>We support 3D Secure (SCA) automatically — if your bank needs to verify the payment, you'll get a secure popup from your bank before the upgrade completes.</p></div>
+</div>
+
+<div style="border-top:1px solid var(--b);padding:32px 40px;text-align:center;color:var(--m);font-size:13px;max-width:1100px;margin:0 auto">
+  CareerStudioMax Developer Cloud &nbsp;·&nbsp; <a href="/docs">Docs</a> &nbsp;·&nbsp; <a href="/playground">Playground</a> &nbsp;·&nbsp; <a href="mailto:api@careerstudiomax.com">api@careerstudiomax.com</a>
+</div>
+
+<!-- Sign-in-required modal (shown if not logged in and user clicks Subscribe) -->
+<div class="modal-overlay" id="login-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('login-modal')">✕</button>
+    <h3>Sign in to upgrade</h3>
+    <p class="sub">Enter the developer ID and API key from your registration email.</p>
+    <div class="field"><label>Developer ID</label><input id="li-id" placeholder="dev_abc123..."></div>
+    <div class="field"><label>API Key</label><input id="li-key" type="password" placeholder="csk_free_v1_..."></div>
+    <div id="login-error" style="color:#f87171;font-size:13px;min-height:16px"></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('login-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="modalLogin()">Sign in</button>
+    </div>
+  </div>
+</div>
+
+<!-- Payment modal -->
+<div class="modal-overlay" id="pay-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('pay-modal')">✕</button>
+    <h3 id="pay-title">Upgrade to Starter</h3>
+    <p class="sub" id="pay-sub">$19/month · billed monthly · cancel anytime</p>
+    <div class="field">
+      <label>Card details</label>
+      <div id="card-element"></div>
+      <div id="card-errors"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('pay-modal')">Cancel</button>
+      <button class="btn btn-primary" id="pay-submit" onclick="submitPayment()">Subscribe</button>
+    </div>
+  </div>
+</div>
+
+<!-- Success modal -->
+<div class="modal-overlay" id="success-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('success-modal')">✕</button>
+    <div class="success-icon">✅</div>
+    <h3 style="text-align:center">You're upgraded!</h3>
+    <p class="sub" style="text-align:center" id="success-sub">Your API key limits have been updated — no key rotation needed.</p>
+    <div class="modal-actions" style="justify-content:center">
+      <a href="/dashboard" class="btn btn-primary">Go to dashboard</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = 'http://localhost:3005/v1';
+let session = null;
+let tiers = [];
+let stripe = null, cardElement = null, elements = null;
+let billingCycle = 'monthly'; // display only — API_TIERS is monthly-only today, annual just shows the discounted-equivalent math
+let pendingTier = null;
+
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+function openModal(id) { document.getElementById(id).classList.add('show'); }
+
+function toggleBilling() {
+  billingCycle = billingCycle === 'monthly' ? 'annual' : 'monthly';
+  document.getElementById('billing-switch').classList.toggle('annual', billingCycle === 'annual');
+  document.getElementById('lbl-monthly').classList.toggle('on', billingCycle === 'monthly');
+  document.getElementById('lbl-annual').classList.toggle('on', billingCycle === 'annual');
+  renderPlans();
+}
+
+async function loadTiers() {
+  const resp = await fetch(`${API}/developer/tiers`);
+  const data = await resp.json();
+  tiers = data.tiers || [];
+  renderPlans();
+}
+
+function renderPlans() {
+  const grid = document.getElementById('pricing-grid');
+  const currentTier = session?.tier || null;
+  grid.innerHTML = tiers.map(t => {
+    const isCurrent = t.id === currentTier;
+    const isFeatured = t.id === 'PLUS';
+    // Annual display: 10 months for the price of 12 (2 months free), computed client-side for display only.
+    const annualTotal = t.price * 10;
+    const priceDisplay = t.price === 0 ? '$0'
+      : billingCycle === 'annual' ? `$${Math.round(annualTotal / 12)}<small>/mo</small>` : `$${t.price}<small>/mo</small>`;
+    const periodDisplay = t.price === 0 ? 'forever' : billingCycle === 'annual' ? `billed $${annualTotal}/year` : 'billed monthly';
+    const ctaLabel = t.id === 'FREE' ? 'Get started free'
+      : t.id === 'ENTERPRISE' ? 'Contact us'
+      : isCurrent ? 'Current plan'
+      : `Upgrade to ${t.name}`;
+    const ctaAction = t.id === 'FREE' ? `location.href='/docs/quickstart'`
+      : t.id === 'ENTERPRISE' ? `location.href='mailto:api@careerstudiomax.com?subject=Enterprise%20plan'`
+      : isCurrent ? ''
+      : `startUpgrade('${t.id}')`;
+    return `
+      <div class="plan ${isFeatured ? 'featured' : ''} ${isCurrent ? 'current' : ''}">
+        ${isCurrent ? '<div class="current-badge">YOUR CURRENT PLAN</div>' : isFeatured ? '<div class="popular-badge">MOST POPULAR</div>' : '<div style="height:19px"></div>'}
+        <div class="plan-name">${t.name}</div>
+        <div class="plan-price">${priceDisplay}</div>
+        <div class="plan-period">${periodDisplay}</div>
+        <ul class="plan-features">
+          <li>${t.daily_requests} requests/day</li>
+          <li>${t.rpm} req/min</li>
+          <li>${t.models.join(', ')}</li>
+          <li>${t.support.replace(/_/g, ' ')} support</li>
+        </ul>
+        <button class="btn ${isFeatured ? 'btn-primary' : 'btn-outline'}" ${isCurrent ? 'disabled' : ''} onclick="${ctaAction}">${ctaLabel}</button>
+      </div>`;
+  }).join('');
+}
+
+function restoreSession() {
+  const saved = sessionStorage.getItem('clm_session');
+  if (!saved) return;
+  try { session = JSON.parse(saved); } catch { return; }
+  refreshSessionTier();
+}
+
+async function refreshSessionTier() {
+  if (!session) return;
+  try {
+    const resp = await fetch(`${API}/developer/usage/${session.developerId}`, { headers: { 'X-Api-Key': session.apiKey } });
+    if (!resp.ok) { session = null; sessionStorage.removeItem('clm_session'); updateSessionBar(); return; }
+    const data = await resp.json();
+    session.tier = data.tier || 'FREE';
+    session.email = data.developer?.email || session.developerId;
+    updateSessionBar();
+    renderPlans();
+  } catch (_) {}
+}
+
+function updateSessionBar() {
+  document.getElementById('session-bar').style.display = session ? 'block' : 'none';
+  document.getElementById('signin-prompt').style.display = session ? 'none' : 'block';
+  if (session) {
+    document.getElementById('session-email').textContent = session.email || session.developerId;
+    document.getElementById('session-tier').textContent = session.tier || 'FREE';
+  }
+}
+
+function logout() {
+  session = null;
+  sessionStorage.removeItem('clm_session');
+  updateSessionBar();
+  renderPlans();
+}
+
+function modalLogin() {
+  const id  = document.getElementById('li-id').value.trim();
+  const key = document.getElementById('li-key').value.trim();
+  const err = document.getElementById('login-error');
+  err.textContent = '';
+  if (!id || !key) { err.textContent = 'Both fields are required.'; return; }
+  fetch(`${API}/developer/usage/${id}`, { headers: { 'X-Api-Key': key } })
+    .then(async r => {
+      if (!r.ok) { const d = await r.json().catch(() => ({})); err.textContent = d?.error?.message || 'Sign-in failed'; return; }
+      const data = await r.json();
+      session = { developerId: id, apiKey: key, tier: data.tier || 'FREE', email: data.developer?.email || id };
+      sessionStorage.setItem('clm_session', JSON.stringify(session));
+      updateSessionBar();
+      renderPlans();
+      closeModal('login-modal');
+      if (pendingTier) { const t = pendingTier; pendingTier = null; startUpgrade(t); }
+    })
+    .catch(() => { err.textContent = 'Cannot reach API (is it running on port 3005?)'; });
+}
+
+async function initStripe() {
+  const resp = await fetch(`${API}/developer/stripe-config`);
+  const cfg = await resp.json();
+  if (!cfg.billing_enabled || !cfg.publishable_key) return;
+  stripe = Stripe(cfg.publishable_key);
+  elements = stripe.elements();
+  cardElement = elements.create('card', {
+    style: { base: { color: '#e2e8f0', fontFamily: 'inherit', fontSize: '14px', '::placeholder': { color: '#475569' } }, invalid: { color: '#f87171' } },
+  });
+  cardElement.mount('#card-element');
+  cardElement.on('change', (ev) => {
+    document.getElementById('card-errors').textContent = ev.error ? ev.error.message : '';
+  });
+}
+
+function startUpgrade(tierId) {
+  if (!session) { pendingTier = tierId; openModal('login-modal'); return; }
+  if (!stripe) { alert('Billing is not configured on this server yet.'); return; }
+  pendingTier = tierId;
+  const t = tiers.find(x => x.id === tierId);
+  document.getElementById('pay-title').textContent = `Upgrade to ${t.name}`;
+  document.getElementById('pay-sub').textContent = `$${t.price}/month · billed monthly · cancel anytime`;
+  document.getElementById('card-errors').textContent = '';
+  document.getElementById('pay-submit').disabled = false;
+  document.getElementById('pay-submit').textContent = 'Subscribe';
+  openModal('pay-modal');
+}
+
+async function submitPayment() {
+  const btn = document.getElementById('pay-submit');
+  const errEl = document.getElementById('card-errors');
+  btn.disabled = true;
+  btn.textContent = 'Processing…';
+  errEl.textContent = '';
+
+  const { paymentMethod, error: pmError } = await stripe.createPaymentMethod({ type: 'card', card: cardElement });
+  if (pmError) {
+    errEl.textContent = pmError.message;
+    btn.disabled = false; btn.textContent = 'Subscribe';
+    return;
+  }
+
+  try {
+    const resp = await fetch(`${API}/developer/upgrade`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Api-Key': session.apiKey },
+      body: JSON.stringify({ developer_id: session.developerId, tier: pendingTier, payment_method_id: paymentMethod.id }),
+    });
+    const data = await resp.json();
+
+    if (!resp.ok && data.status !== 'requires_action') {
+      errEl.textContent = data?.error?.message || 'Upgrade failed — please try again.';
+      btn.disabled = false; btn.textContent = 'Subscribe';
+      return;
+    }
+
+    if (data.status === 'requires_action') {
+      // Card needs 3D Secure — Stripe.js pops the bank's own verification UI.
+      const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(data.client_secret);
+      if (confirmError) {
+        errEl.textContent = confirmError.message;
+        btn.disabled = false; btn.textContent = 'Subscribe';
+        return;
+      }
+      // Verified — tell the backend to apply the tier now that Stripe itself confirms payment succeeded.
+      const confirmResp = await fetch(`${API}/developer/upgrade/confirm`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Api-Key': session.apiKey },
+        body: JSON.stringify({ developer_id: session.developerId, tier: pendingTier, subscription_id: data.subscription_id }),
+      });
+      const confirmData = await confirmResp.json();
+      if (!confirmResp.ok) {
+        errEl.textContent = confirmData?.error?.message || 'Could not finalise upgrade after verification.';
+        btn.disabled = false; btn.textContent = 'Subscribe';
+        return;
+      }
+    }
+
+    // Success (either path)
+    session.tier = pendingTier;
+    sessionStorage.setItem('clm_session', JSON.stringify(session));
+    closeModal('pay-modal');
+    document.getElementById('success-sub').textContent = `You're now on the ${pendingTier} plan — updated instantly on your existing API key.`;
+    openModal('success-modal');
+    renderPlans();
+    updateSessionBar();
+  } catch (e) {
+    errEl.textContent = 'Network error — please try again.';
+    btn.disabled = false; btn.textContent = 'Subscribe';
+  }
+}
+
+document.querySelectorAll('.modal-overlay').forEach(ov => {
+  ov.addEventListener('click', (e) => { if (e.target === ov) ov.classList.remove('show'); });
+});
+
+restoreSession();
+updateSessionBar();
+loadTiers();
+initStripe();
+</script>
+</body>
+</html>

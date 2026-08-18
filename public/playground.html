@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Playground — CareerStudioMax Developer Cloud</title>
+<style>
+:root{--bg:#0a0a0f;--s:#12121a;--b:#1e1e2e;--t:#e2e8f0;--m:#94a3b8;--a:#6366f1;--ah:#818cf8;--g:#10b981;--r:#ef4444;--cb:#0d1117;--f:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--mono:'Fira Code',Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t);font-family:var(--f);line-height:1.6;height:100vh;display:flex;flex-direction:column}
+a{color:var(--a);text-decoration:none}
+nav{display:flex;justify-content:space-between;align-items:center;padding:14px 32px;border-bottom:1px solid var(--b);background:rgba(10,10,15,.95);backdrop-filter:blur(12px);flex-shrink:0}
+.logo{font-size:17px;font-weight:700}.logo span{color:var(--a)}
+.nav-links{display:flex;gap:20px;font-size:14px}.nav-links a{color:var(--m)}.nav-links a:hover{color:var(--t)}
+.btn{padding:7px 16px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;border:none;display:inline-block}
+.btn-primary{background:var(--a);color:#fff}.btn-run{background:var(--g);color:#fff;padding:9px 24px;font-size:14px;font-weight:600}
+.pg{display:grid;grid-template-columns:340px 1fr;flex:1;overflow:hidden}
+.left-panel{border-right:1px solid var(--b);display:flex;flex-direction:column;overflow-y:auto}
+.panel-section{padding:20px;border-bottom:1px solid var(--b)}
+.panel-label{font-size:11px;font-weight:700;color:#475569;letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:13px;color:var(--m);margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;background:var(--s);border:1px solid var(--b);color:var(--t);padding:8px 12px;border-radius:6px;font-size:13px;outline:none;font-family:var(--f)}
+.field input:focus,.field select,.field textarea:focus{border-color:var(--a)}
+.field textarea{font-family:var(--mono);font-size:12px;resize:vertical}
+.field select{cursor:pointer}
+.field input::placeholder,.field textarea::placeholder{color:#475569}
+.right-panel{display:flex;flex-direction:column;overflow:hidden}
+.resp-header{padding:14px 20px;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.resp-title{font-size:13px;font-weight:600}
+.status-pill{padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;display:none}
+.status-ok{background:rgba(16,185,129,.15);color:#34d399}
+.status-err{background:rgba(239,68,68,.15);color:#f87171}
+.resp-body{flex:1;overflow:auto;padding:20px;font-family:var(--mono);font-size:12px;line-height:1.7;white-space:pre-wrap;color:var(--m)}
+.resp-body.loading{display:flex;align-items:center;justify-content:center;color:#475569}
+.endpoint-list{list-style:none}
+.endpoint-list li{padding:8px 12px;border-radius:6px;cursor:pointer;font-size:13px;display:flex;gap:8px;align-items:center}
+.endpoint-list li:hover{background:rgba(99,102,241,.08)}
+.endpoint-list li.active{background:rgba(99,102,241,.12);color:var(--t)}
+.method-tag{font-size:10px;font-weight:700;font-family:var(--mono);padding:1px 5px;border-radius:3px}
+.POST{background:rgba(16,185,129,.15);color:#34d399}
+.GET{background:rgba(99,102,241,.15);color:var(--ah)}
+.timing{font-size:12px;color:#475569;display:none}
+.json-key{color:#818cf8}.json-str{color:#34d399}.json-num{color:#f59e0b}.json-bool{color:#f87171}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">CareerStudioMax <span>Developer Cloud</span></a>
+  <div class="nav-links"><a href="/docs">Docs</a><a href="/docs/quickstart">Quickstart</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div>
+  <a href="/docs/quickstart" class="btn btn-primary">Get API key →</a>
+</nav>
+
+<div class="pg">
+  <div class="left-panel">
+    <div class="panel-section">
+      <div class="panel-label">API Key</div>
+      <div class="field"><input id="api-key" type="password" placeholder="csk_free_v1_..." autocomplete="off"></div>
+      <div class="field">
+        <label>Base URL</label>
+        <input id="base-url" value="http://localhost:3005/v1">
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="panel-label">Endpoint</div>
+      <ul class="endpoint-list" id="ep-list">
+        <li class="active" data-ep="cv-score"><span class="method-tag POST">POST</span>/career/cv/score</li>
+        <li data-ep="cv-optimise"><span class="method-tag POST">POST</span>/career/cv/optimise</li>
+        <li data-ep="salary"><span class="method-tag POST">POST</span>/career/salary/benchmark</li>
+        <li data-ep="cover-letter"><span class="method-tag POST">POST</span>/career/cover-letter/generate</li>
+        <li data-ep="job-match"><span class="method-tag POST">POST</span>/career/job/match</li>
+        <li data-ep="interview"><span class="method-tag POST">POST</span>/career/interview/questions</li>
+        <li data-ep="skills-gap"><span class="method-tag POST">POST</span>/career/skills/gap</li>
+        <li data-ep="chat"><span class="method-tag POST">POST</span>/career/chat/completions</li>
+        <li data-ep="register"><span class="method-tag POST">POST</span>/developer/register</li>
+        <li data-ep="tiers"><span class="method-tag GET">GET</span>/developer/tiers</li>
+      </ul>
+    </div>
+
+    <div class="panel-section" style="flex:1">
+      <div class="panel-label">Request body</div>
+      <div class="field"><textarea id="req-body" rows="20" placeholder="{}"></textarea></div>
+      <button class="btn btn-run" onclick="sendRequest()" style="width:100%">▶ Run request</button>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <div class="resp-header">
+      <div class="resp-title">Response</div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <span class="timing" id="timing"></span>
+        <span class="status-pill" id="status-pill"></span>
+      </div>
+    </div>
+    <div class="resp-body" id="resp-body">Select an endpoint and click Run request →</div>
+  </div>
+</div>
+
+<script>
+const API = () => document.getElementById('base-url').value.replace(/\/$/, '');
+const KEY = () => document.getElementById('api-key').value.trim();
+
+const TEMPLATES = {
+  'cv-score': {
+    path: '/career/cv/score', method: 'POST',
+    body: {
+      cv_text: 'Ada Okonkwo\nSenior Python Developer | Lagos, Nigeria\nEmail: ada@example.com\n\nExperience:\nSoftware Engineer, Paystack (2021–2024)\n- Built payment APIs handling ₦2B daily volume\n- Led migration from monolith to microservices\n- Python, FastAPI, PostgreSQL, AWS\n\nSkills: Python, FastAPI, PostgreSQL, AWS, Docker, Redis\nEducation: B.Sc Computer Science, University of Lagos (2020)',
+      job_description: 'We are hiring a Senior Python Engineer to build scalable APIs.\nRequired: Python, FastAPI, Kubernetes, Terraform, AWS.\n5+ years experience.',
+      target_country: 'NG',
+    }
+  },
+  'cv-optimise': {
+    path: '/career/cv/optimise', method: 'POST',
+    body: { cv_text: 'Your CV text here...', job_description: 'Target job description...', options: { rewrite_level: 'moderate' } }
+  },
+  'salary': {
+    path: '/career/salary/benchmark', method: 'POST',
+    body: { role: 'Data Engineer', country: 'NG', city: 'Lagos', years_experience: 4, skills: ['Python','SQL','dbt','Spark'], options: { currency: 'NGN' } }
+  },
+  'cover-letter': {
+    path: '/career/cover-letter/generate', method: 'POST',
+    body: { cv_text: 'Ada Okonkwo, Senior Python Developer at Paystack...', job_description: 'Hiring Senior Engineer at Stripe...', company_name: 'Stripe', candidate_name: 'Ada Okonkwo', mode: 5, tone: 'confident', options: { word_limit: 280 } }
+  },
+  'job-match': {
+    path: '/career/job/match', method: 'POST',
+    body: {
+      candidate: { cv_text: 'Ada Okonkwo, Senior Python Developer...', skills: ['Python','FastAPI','PostgreSQL'], years_experience: 4, location: 'Lagos', salary_expectation: 8000000 },
+      job: { title: 'Senior Backend Engineer', description: 'Join our platform team...', required_skills: ['Python','Kubernetes','AWS'], salary_min: 7000000, salary_max: 12000000, location: 'Lagos', remote: 'hybrid' }
+    }
+  },
+  'interview': {
+    path: '/career/interview/questions', method: 'POST',
+    body: { role: 'Product Manager', company: 'Flutterwave', interview_type: 'behavioural', count: 5, include_answers: true, seniority: 'senior' }
+  },
+  'skills-gap': {
+    path: '/career/skills/gap', method: 'POST',
+    body: { current_skills: ['Python','SQL','Excel'], target_role: 'Senior Data Scientist', target_country: 'NG', years_to_achieve: 12, options: { include_resources: true, include_roi: true, currency: 'NGN' } }
+  },
+  'chat': {
+    path: '/career/chat/completions', method: 'POST',
+    body: { messages: [{ role: 'user', content: 'I am a Python developer with 4 years experience. What salary should I negotiate for in Lagos?' }], model: 'careerlm-standard', max_tokens: 400 }
+  },
+  'register': {
+    path: '/developer/register', method: 'POST', noAuth: true,
+    body: { name: 'Ada Okonkwo', email: 'ada@example.com', company: 'Paystack' }
+  },
+  'tiers': { path: '/developer/tiers', method: 'GET', noAuth: true, body: null },
+};
+
+let currentEp = 'cv-score';
+
+document.querySelectorAll('#ep-list li').forEach(li => {
+  li.addEventListener('click', () => {
+    document.querySelectorAll('#ep-list li').forEach(x => x.classList.remove('active'));
+    li.classList.add('active');
+    currentEp = li.dataset.ep;
+    const tpl = TEMPLATES[currentEp];
+    document.getElementById('req-body').value = tpl.body ? JSON.stringify(tpl.body, null, 2) : '';
+    document.getElementById('resp-body').textContent = 'Click Run request →';
+    document.getElementById('status-pill').style.display = 'none';
+    document.getElementById('timing').style.display = 'none';
+  });
+});
+
+document.getElementById('req-body').value = JSON.stringify(TEMPLATES['cv-score'].body, null, 2);
+
+function syntaxHighlight(json) {
+  return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, match => {
+    let cls = 'json-num';
+    if (/^"/.test(match)) cls = /:$/.test(match) ? 'json-key' : 'json-str';
+    else if (/true|false/.test(match)) cls = 'json-bool';
+    return `<span class="${cls}">${match}</span>`;
+  });
+}
+
+async function sendRequest() {
+  const tpl   = TEMPLATES[currentEp];
+  const key   = KEY();
+  const base  = API();
+  const body  = document.getElementById('req-body').value;
+  const resp  = document.getElementById('resp-body');
+  const pill  = document.getElementById('status-pill');
+  const timer = document.getElementById('timing');
+
+  if (!key && !tpl.noAuth) {
+    resp.innerHTML = '<span style="color:#ef4444">Paste your API key above first.</span>';
+    return;
+  }
+
+  resp.innerHTML = '<span style="color:#475569">Sending request...</span>';
+  pill.style.display = 'none';
+  timer.style.display = 'none';
+
+  const t0 = Date.now();
+  try {
+    const headers = { 'Content-Type': 'application/json' };
+    if (key) headers['X-Api-Key'] = key;
+
+    const options = { method: tpl.method, headers };
+    if (tpl.method !== 'GET' && body) options.body = body;
+
+    const r    = await fetch(`${base}${tpl.path}`, options);
+    const ms   = Date.now() - t0;
+    const data = await r.json();
+    const text = JSON.stringify(data, null, 2);
+
+    resp.innerHTML = syntaxHighlight(text);
+
+    pill.textContent = `${r.status} ${r.ok ? 'OK' : 'Error'}`;
+    pill.className   = `status-pill ${r.ok ? 'status-ok' : 'status-err'}`;
+    pill.style.display = 'inline-block';
+
+    timer.textContent  = `${ms}ms`;
+    timer.style.display = 'inline';
+  } catch (e) {
+    const ms = Date.now() - t0;
+    resp.innerHTML = `<span style="color:#ef4444">Network error: ${e.message}\n\nIs the API server running on ${base}?</span>`;
+    pill.textContent = 'Error';
+    pill.className   = 'status-pill status-err';
+    pill.style.display = 'inline-block';
+    timer.textContent  = `${ms}ms`;
+    timer.style.display = 'inline';
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') sendRequest();
+});
+</script>
+</body>
+</html>

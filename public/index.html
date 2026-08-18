@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CareerStudioMax Developer Cloud — World's First Career Intelligence API</title>
+<style>
+:root{--bg:#0a0a0f;--s:#12121a;--b:#1e1e2e;--t:#e2e8f0;--m:#94a3b8;--a:#6366f1;--ah:#818cf8;--g:#10b981;--y:#f59e0b;--cb:#0d1117;--f:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--mono:'Fira Code','Cascadia Code',Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t);font-family:var(--f);line-height:1.6;min-height:100vh}
+a{color:var(--a);text-decoration:none}a:hover{color:var(--ah)}
+nav{display:flex;justify-content:space-between;align-items:center;padding:16px 40px;border-bottom:1px solid var(--b);position:sticky;top:0;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);z-index:100}
+.logo{font-size:18px;font-weight:700;letter-spacing:-0.5px}.logo span{color:var(--a)}
+.nav-links{display:flex;gap:24px;font-size:14px;color:var(--m)}
+.nav-links a{color:var(--m)}.nav-links a:hover{color:var(--t)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:6px;font-size:14px;font-weight:500;cursor:pointer;border:none;transition:all .15s}
+.btn-primary{background:var(--a);color:#fff}.btn-primary:hover{background:var(--ah);color:#fff}
+.btn-outline{background:transparent;color:var(--t);border:1px solid var(--b)}.btn-outline:hover{border-color:var(--a);color:var(--a)}
+.hero{padding:100px 40px 80px;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.badge{display:inline-block;padding:4px 12px;background:rgba(99,102,241,.15);color:var(--a);border:1px solid rgba(99,102,241,.3);border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:20px}
+h1{font-size:52px;font-weight:800;line-height:1.1;letter-spacing:-2px;margin-bottom:20px}
+h1 span{background:linear-gradient(135deg,var(--a),var(--ah));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:18px;color:var(--m);margin-bottom:32px;line-height:1.7}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+.code-block{background:var(--cb);border:1px solid var(--b);border-radius:12px;overflow:hidden}
+.code-header{padding:12px 16px;border-bottom:1px solid var(--b);display:flex;align-items:center;gap:8px;font-size:13px;color:var(--m)}
+.dot{width:10px;height:10px;border-radius:50%}.dot.r{background:#ef4444}.dot.y{background:#f59e0b}.dot.g{background:#10b981}
+pre{padding:20px;font-family:var(--mono);font-size:13px;line-height:1.7;overflow-x:auto;color:#e2e8f0}
+.kw{color:#c084fc}.fn{color:#60a5fa}.str{color:#34d399}.cm{color:#64748b}.num{color:#f59e0b}.prop{color:#f8a4a8}
+.stats{background:var(--s);border-top:1px solid var(--b);border-bottom:1px solid var(--b);padding:40px}
+.stats-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:40px;text-align:center}
+.stat-num{font-size:36px;font-weight:800;color:var(--a);letter-spacing:-1px}
+.stat-label{font-size:14px;color:var(--m);margin-top:4px}
+.section{max-width:1100px;margin:0 auto;padding:80px 40px}
+h2{font-size:36px;font-weight:700;letter-spacing:-1px;margin-bottom:12px}
+.section-sub{font-size:16px;color:var(--m);margin-bottom:48px}
+.endpoints{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.ep{background:var(--s);border:1px solid var(--b);border-radius:10px;padding:20px;transition:border-color .2s}
+.ep:hover{border-color:var(--a)}
+.ep-method{display:inline-block;padding:2px 8px;background:rgba(99,102,241,.15);color:var(--a);border-radius:4px;font-size:11px;font-weight:700;font-family:var(--mono);margin-bottom:10px}
+.ep-path{font-family:var(--mono);font-size:13px;color:var(--t);margin-bottom:6px;font-weight:600}
+.ep-desc{font-size:13px;color:var(--m)}
+.worlds-first{display:grid;grid-template-columns:repeat(1,1fr);gap:16px}
+.wf{background:var(--s);border:1px solid var(--b);border-radius:10px;padding:24px;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start}
+.wf-num{font-size:28px;font-weight:900;color:var(--a);line-height:1}
+.wf-title{font-weight:700;margin-bottom:6px}
+.wf-desc{font-size:14px;color:var(--m);line-height:1.6}
+.pricing{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.plan{background:var(--s);border:1px solid var(--b);border-radius:12px;padding:28px}
+.plan.featured{border-color:var(--a);background:rgba(99,102,241,.07)}
+.plan-name{font-weight:700;font-size:18px;margin-bottom:4px}
+.plan-price{font-size:36px;font-weight:800;letter-spacing:-1px;margin:12px 0 4px}
+.plan-period{font-size:13px;color:var(--m)}
+.plan-features{list-style:none;margin:20px 0;display:flex;flex-direction:column;gap:8px}
+.plan-features li{font-size:14px;color:var(--m);display:flex;gap:8px}
+.plan-features li::before{content:'✓';color:var(--g);font-weight:700;flex-shrink:0}
+.plan .btn{width:100%;justify-content:center;margin-top:8px}
+footer{border-top:1px solid var(--b);padding:40px;text-align:center;color:var(--m);font-size:14px;max-width:1100px;margin:0 auto}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--b);margin-bottom:24px}
+.tab{padding:8px 16px;font-size:13px;color:var(--m);cursor:pointer;border-bottom:2px solid transparent;font-family:var(--mono)}
+.tab.active{color:var(--a);border-bottom-color:var(--a)}
+.tab-content{display:none}.tab-content.active{display:block}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.endpoints{grid-template-columns:1fr}.pricing{grid-template-columns:1fr 1fr}.stats-inner{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.pricing{grid-template-columns:1fr}h1{font-size:36px}.nav-links{display:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">CareerStudioMax <span>Developer Cloud</span></div>
+  <div class="nav-links">
+    <a href="/docs">Docs</a>
+    <a href="/docs/quickstart">Quickstart</a>
+    <a href="/playground">Playground</a>
+    <a href="/pricing">Pricing</a>
+    <a href="/dashboard">Dashboard</a>
+  </div>
+  <div style="display:flex;gap:10px">
+    <a href="/dashboard" class="btn btn-outline">Sign in</a>
+    <a href="/docs/quickstart" class="btn btn-primary">Get API key →</a>
+  </div>
+</nav>
+
+<section style="max-width:1100px;margin:0 auto;padding:80px 40px 60px">
+  <div class="hero" style="max-width:none;padding:0">
+    <div>
+      <div class="badge">WORLD'S FIRST CAREER INTELLIGENCE API</div>
+      <h1>Build career apps<br>in <span>2 lines of code</span></h1>
+      <p class="hero-sub">CV scoring, salary benchmarking, cover letter generation, and interview prep — all behind one API key. Free forever for 1,000 requests/day.</p>
+      <div class="hero-cta">
+        <a href="/docs/quickstart" class="btn btn-primary">Get free API key →</a>
+        <a href="/docs" class="btn btn-outline">Read the docs</a>
+      </div>
+      <div style="margin-top:28px;font-size:13px;color:var(--m)">No credit card required &nbsp;·&nbsp; Key ready in 60 seconds &nbsp;·&nbsp; 1,000 req/day free forever</div>
+    </div>
+    <div>
+      <div class="code-block">
+        <div class="code-header"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>&nbsp;Score a CV in 2 lines</div>
+        <div class="tabs">
+          <div class="tab active" onclick="switchTab('js')">JavaScript</div>
+          <div class="tab" onclick="switchTab('py')">Python</div>
+          <div class="tab" onclick="switchTab('curl')">cURL</div>
+        </div>
+        <div id="tab-js" class="tab-content active">
+<pre><span class="kw">const</span> { CareerLM } = <span class="fn">require</span>(<span class="str">'careerlm'</span>)
+<span class="kw">const</span> client = <span class="kw">new</span> <span class="fn">CareerLM</span>(<span class="str">'csk_free_v1_...'</span>)
+
+<span class="cm">// Score a CV — returns structured JSON</span>
+<span class="kw">const</span> score = <span class="kw">await</span> client.cv.<span class="fn">score</span>(cvText, jobDescription)
+console.<span class="fn">log</span>(score.<span class="prop">ats_score</span>)    <span class="cm">// 87</span>
+console.<span class="fn">log</span>(score.<span class="prop">grade</span>)         <span class="cm">// "B+"</span>
+console.<span class="fn">log</span>(score.<span class="prop">keyword_match</span>.<span class="prop">missing</span>)
+<span class="cm">// ["Kubernetes", "Terraform"]</span>
+
+<span class="cm">// Benchmark salary — 196 countries</span>
+<span class="kw">const</span> salary = <span class="kw">await</span> client.salary.<span class="fn">benchmark</span>(<span class="str">'Data Engineer'</span>, <span class="str">'NG'</span>, {
+  city: <span class="str">'Lagos'</span>, currency: <span class="str">'NGN'</span>
+})
+console.<span class="fn">log</span>(salary.<span class="prop">salary_range</span>.<span class="prop">median</span>)  <span class="cm">// 6800000</span></pre>
+        </div>
+        <div id="tab-py" class="tab-content">
+<pre><span class="kw">from</span> careerlm <span class="kw">import</span> CareerLM
+
+client = <span class="fn">CareerLM</span>(<span class="str">"csk_free_v1_..."</span>)
+
+<span class="cm"># Score a CV</span>
+score = client.cv.<span class="fn">score</span>(cv_text, job_description)
+<span class="fn">print</span>(score[<span class="str">"ats_score"</span>])    <span class="cm"># 87</span>
+<span class="fn">print</span>(score[<span class="str">"grade"</span>])         <span class="cm"># "B+"</span>
+
+<span class="cm"># Salary benchmark</span>
+salary = client.salary.<span class="fn">benchmark</span>(<span class="str">"Data Engineer"</span>, <span class="str">"NG"</span>,
+  city=<span class="str">"Lagos"</span>, currency=<span class="str">"NGN"</span>)
+<span class="fn">print</span>(salary[<span class="str">"salary_range"</span>][<span class="str">"median"</span>])  <span class="cm"># 6800000</span></pre>
+        </div>
+        <div id="tab-curl" class="tab-content">
+<pre>curl -X POST https://api.careerstudiomax.com/v1/career/cv/score \
+  -H <span class="str">"X-Api-Key: csk_free_v1_..."</span> \
+  -H <span class="str">"Content-Type: application/json"</span> \
+  -d <span class="str">'{
+    "cv_text": "Ada Okonkwo, Senior Engineer...",
+    "job_description": "We are hiring a...",
+    "target_country": "NG"
+  }'</span>
+
+<span class="cm"># Returns:</span>
+<span class="cm"># { "ats_score": 87, "grade": "B+", "keyword_match": {...} }</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stats-inner">
+    <div><div class="stat-num">274</div><div class="stat-label">Career features</div></div>
+    <div><div class="stat-num">196</div><div class="stat-label">Countries (salary)</div></div>
+    <div><div class="stat-num">15</div><div class="stat-label">Cover letter modes</div></div>
+    <div><div class="stat-num">1,000</div><div class="stat-label">Free requests/day</div></div>
+  </div>
+</div>
+
+<section class="section">
+  <h2>9 world-first API endpoints</h2>
+  <p class="section-sub">Purpose-built career intelligence — no prompt engineering needed</p>
+  <div class="endpoints">
+    <div class="ep"><div class="ep-method">POST</div><div class="ep-path">/career/cv/score</div><div class="ep-desc">Structured ATS score with keyword gap, section breakdown, and 5 improvements</div></div>
+    <div class="ep"><div class="ep-method">POST</div><div class="ep-path">/career/cv/optimise</div><div class="ep-desc">Section-by-section CV rewrite in light / moderate / full modes</div></div>
+    <div class="ep"><div class="ep-method">POST</div><div class="ep-path">/career/salary/benchmark</div><div class="ep-desc">PPP-adjusted salary ranges for 196 countries with skill premiums</div></div>
+    <div class="ep"><div class="ep-method">POST</div><div class="ep-path">/career/cover-letter/generate</div><div class="ep-desc">15 professional writing modes — achievement-led to executive gravitas</div></div>
+    <div class="ep"><div class="ep-method">POST</div><div class="ep-path">/career/job/match</div><div class="ep-desc">Multi-dimensional match score with interview probability and apply recommendation</div></div>
+    <div class="ep"><div class="ep-method">POST</div><div class="ep-path">/career/interview/questions</div><div class="ep-desc">Role-specific questions with STAR model answers and common mistakes</div></div>
+    <div class="ep"><div class="ep-method">POST</div><div class="ep-path">/career/skills/gap</div><div class="ep-desc">Quantified gap analysis with learning hours, salary impact, and ROI</div></div>
+    <div class="ep"><div class="ep-method">POST</div><div class="ep-path">/career/chat/completions</div><div class="ep-desc">OpenAI-compatible career chat — migrate from OpenAI in one line</div></div>
+    <div class="ep"><div class="ep-method">POST</div><div class="ep-path">/career/context</div><div class="ep-desc">World-first: persistent career context across API calls</div></div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <h2>5 features no other API has</h2>
+  <p class="section-sub">World-firsts that make CareerStudioMax Developer Cloud uniquely valuable</p>
+  <div class="worlds-first">
+    <div class="wf"><div class="wf-num">1</div><div><div class="wf-title">Career-native model endpoints</div><div class="wf-desc">Not generic chat — structured endpoints that return validated career intelligence. <code style="color:var(--a)">/cv/score</code> returns ATS score, keyword gaps, and section breakdown. No prompting required.</div></div></div>
+    <div class="wf"><div class="wf-num">2</div><div><div class="wf-title">Career Context persistence</div><div class="wf-desc">Unlike OpenAI's stateless API, CareerStudioMax Developer Cloud remembers the candidate's role, skills, and goals across every call. Pass a <code style="color:var(--a)">context_id</code> and every endpoint auto-personalises.</div></div></div>
+    <div class="wf"><div class="wf-num">3</div><div><div class="wf-title">196-country salary intelligence</div><div class="wf-desc">Structured, queryable salary data for 196 countries, 1,200+ career paths, and local currency PPP adjustment. Returns skill premiums, negotiation targets, and equity ranges.</div></div></div>
+    <div class="wf"><div class="wf-num">4</div><div><div class="wf-title">Zero-cost developer tier — forever</div><div class="wf-desc">careerlm-flash (cs-haiku) is permanently free at 1,000 req/day. No trial period. No credit card. No expiry. This is Groq-style adoption strategy.</div></div></div>
+    <div class="wf"><div class="wf-num">5</div><div><div class="wf-title">SDK in 8 languages</div><div class="wf-desc">Official SDKs for JavaScript, Python, Go, Rust, PHP, Ruby, Java, and Swift. Career-specific helper methods abstract all AI complexity: <code style="color:var(--a)">client.cv.score(cvText, jd)</code>.</div></div></div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <h2>Pricing</h2>
+  <p class="section-sub">Start free. Upgrade when you scale.</p>
+  <div class="pricing">
+    <div class="plan">
+      <div class="plan-name">Free</div>
+      <div class="plan-price">$0</div><div class="plan-period">forever</div>
+      <ul class="plan-features">
+        <li>1,000 requests/day</li>
+        <li>careerlm-flash model</li>
+        <li>CV scoring</li>
+        <li>Career chat</li>
+        <li>Community support</li>
+      </ul>
+      <a href="/docs/quickstart" class="btn btn-outline">Get started free</a>
+    </div>
+    <div class="plan">
+      <div class="plan-name">Pro</div>
+      <div class="plan-price">$19</div><div class="plan-period">/month</div>
+      <ul class="plan-features">
+        <li>10,000 requests/day</li>
+        <li>careerlm-flash + standard</li>
+        <li>All career endpoints</li>
+        <li>CV optimise</li>
+        <li>Email support</li>
+      </ul>
+      <a href="/pricing" class="btn btn-outline">Start Pro</a>
+    </div>
+    <div class="plan featured">
+      <div style="font-size:11px;font-weight:700;color:var(--a);letter-spacing:.5px;margin-bottom:8px">MOST POPULAR</div>
+      <div class="plan-name">Plus</div>
+      <div class="plan-price">$49</div><div class="plan-period">/month</div>
+      <ul class="plan-features">
+        <li>100,000 requests/day</li>
+        <li>All 3 models incl. deep</li>
+        <li>Batch processing</li>
+        <li>Webhooks</li>
+        <li>Priority email support</li>
+      </ul>
+      <a href="/pricing" class="btn btn-primary">Go Plus</a>
+    </div>
+    <div class="plan">
+      <div class="plan-name">Enterprise</div>
+      <div class="plan-price">$199</div><div class="plan-period">/month</div>
+      <ul class="plan-features">
+        <li>Unlimited requests</li>
+        <li>All 3 models</li>
+        <li>Fine-tuning</li>
+        <li>99.9% SLA</li>
+        <li>Dedicated Slack support</li>
+      </ul>
+      <a href="/pricing" class="btn btn-outline">See full pricing</a>
+    </div>
+  </div>
+</section>
+
+<div style="max-width:1100px;margin:0 auto;padding:0 40px 80px">
+  <div style="background:linear-gradient(135deg,rgba(99,102,241,.15),rgba(129,140,248,.05));border:1px solid rgba(99,102,241,.3);border-radius:16px;padding:48px;text-align:center">
+    <h2 style="margin-bottom:12px">Ready to build?</h2>
+    <p style="color:var(--m);margin-bottom:28px">API key in 60 seconds. No credit card. 1,000 free requests every day.</p>
+    <a href="/docs/quickstart" class="btn btn-primary" style="font-size:16px;padding:12px 28px">Get your free API key →</a>
+  </div>
+</div>
+
+<div style="border-top:1px solid var(--b);padding:32px 40px;text-align:center;color:var(--m);font-size:13px;max-width:1100px;margin:0 auto">
+  CareerStudioMax Developer Cloud &nbsp;·&nbsp; <a href="/docs">Docs</a> &nbsp;·&nbsp; <a href="/playground">Playground</a> &nbsp;·&nbsp; <a href="mailto:api@careerstudiomax.com">api@careerstudiomax.com</a>
+</div>
+
+<script>
+function switchTab(id){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['js','py','curl'][i]===id));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+}
+</script>
+</body>
+</html>

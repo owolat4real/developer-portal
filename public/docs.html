@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>API Reference — CareerStudioMax Developer Cloud</title>
+<style>
+:root{--bg:#0a0a0f;--s:#12121a;--b:#1e1e2e;--t:#e2e8f0;--m:#94a3b8;--a:#6366f1;--ah:#818cf8;--g:#10b981;--r:#ef4444;--y:#f59e0b;--cb:#0d1117;--f:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--mono:'Fira Code',Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t);font-family:var(--f);line-height:1.6}
+a{color:var(--a);text-decoration:none}a:hover{color:var(--ah)}
+nav{display:flex;justify-content:space-between;align-items:center;padding:16px 40px;border-bottom:1px solid var(--b);background:rgba(10,10,15,.95);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100}
+.logo{font-size:18px;font-weight:700}.logo span{color:var(--a)}
+.nav-links{display:flex;gap:24px;font-size:14px}.nav-links a{color:var(--m)}.nav-links a:hover{color:var(--t)}
+.btn{padding:8px 18px;border-radius:6px;font-size:14px;font-weight:500;cursor:pointer;border:none;display:inline-block}
+.btn-primary{background:var(--a);color:#fff}
+.layout{display:grid;grid-template-columns:240px 1fr 280px;min-height:calc(100vh - 57px)}
+.sidebar{padding:32px 0;border-right:1px solid var(--b);position:sticky;top:57px;height:calc(100vh - 57px);overflow-y:auto}
+.sidebar a{display:block;padding:5px 20px;font-size:13px;color:var(--m);border-left:2px solid transparent}
+.sidebar a:hover,.sidebar a.active{color:var(--a);border-left-color:var(--a);background:rgba(99,102,241,.05)}
+.sidebar-section{padding:14px 20px 6px;font-size:10px;font-weight:700;color:#475569;letter-spacing:.8px;text-transform:uppercase}
+main{padding:48px 52px;max-width:760px}
+.toc{padding:32px 20px;border-left:1px solid var(--b);position:sticky;top:57px;height:calc(100vh - 57px);overflow-y:auto;font-size:12px}
+.toc-title{font-size:10px;font-weight:700;color:#475569;letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px}
+.toc a{display:block;padding:3px 0;color:var(--m)}.toc a:hover{color:var(--t)}
+h1{font-size:32px;font-weight:800;letter-spacing:-1px;margin-bottom:8px}
+.page-sub{font-size:15px;color:var(--m);margin-bottom:40px}
+h2{font-size:22px;font-weight:700;margin:48px 0 16px;padding-top:8px;border-top:1px solid var(--b)}
+h3{font-size:16px;font-weight:700;margin:28px 0 10px}
+h4{font-size:14px;font-weight:700;margin:20px 0 8px;color:var(--ah)}
+p{color:var(--m);margin-bottom:12px;line-height:1.7}
+.endpoint-header{display:flex;align-items:center;gap:12px;margin:32px 0 12px;padding:16px;background:var(--s);border:1px solid var(--b);border-radius:8px}
+.method{padding:3px 9px;border-radius:4px;font-size:12px;font-weight:700;font-family:var(--mono)}
+.method.POST{background:rgba(16,185,129,.15);color:#34d399}
+.method.GET{background:rgba(99,102,241,.15);color:var(--ah)}
+.method.DELETE{background:rgba(239,68,68,.15);color:#f87171}
+.path{font-family:var(--mono);font-size:14px;font-weight:600}
+.code-block{background:var(--cb);border:1px solid var(--b);border-radius:8px;overflow:hidden;margin:14px 0}
+.code-header{padding:8px 14px;border-bottom:1px solid var(--b);font-size:11px;color:var(--m)}
+pre{padding:16px;font-family:var(--mono);font-size:12px;line-height:1.7;overflow-x:auto}
+.kw{color:#c084fc}.fn{color:#60a5fa}.str{color:#34d399}.cm{color:#64748b}.prop{color:#f8a4a8}.num{color:#f59e0b}
+code{font-family:var(--mono);font-size:12px;background:rgba(99,102,241,.1);color:var(--ah);padding:2px 6px;border-radius:4px}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0}
+th{text-align:left;padding:8px 12px;background:var(--s);border:1px solid var(--b);color:var(--m);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+td{padding:8px 12px;border:1px solid var(--b);color:var(--m);vertical-align:top}
+td:first-child{font-family:var(--mono);color:var(--ah);font-size:12px}
+.req{color:var(--r);font-size:11px}
+.badge{display:inline-block;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:700}
+.badge-free{background:rgba(16,185,129,.15);color:#34d399}
+.badge-starter{background:rgba(99,102,241,.15);color:var(--ah)}
+.badge-pro{background:rgba(245,158,11,.15);color:var(--y)}
+.alert{padding:12px 16px;border-radius:6px;font-size:13px;margin:14px 0}
+.alert-info{background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.3);color:var(--ah)}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">CareerStudioMax <span>Developer Cloud</span></a>
+  <div class="nav-links"><a href="/docs/quickstart">Quickstart</a><a href="/playground">Playground</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div>
+  <a href="/docs/quickstart" class="btn btn-primary">Get API key →</a>
+</nav>
+<div class="layout">
+<aside class="sidebar">
+  <div class="sidebar-section">Introduction</div>
+  <a href="#auth" class="active">Authentication</a>
+  <a href="#errors">Errors</a>
+  <a href="#rate-limits">Rate limits</a>
+  <a href="#models">Models</a>
+  <div class="sidebar-section">CV</div>
+  <a href="#cv-score">POST /cv/score</a>
+  <a href="#cv-optimise">POST /cv/optimise</a>
+  <div class="sidebar-section">Salary</div>
+  <a href="#salary-benchmark">POST /salary/benchmark</a>
+  <div class="sidebar-section">Cover Letter</div>
+  <a href="#cover-letter">POST /cover-letter/generate</a>
+  <div class="sidebar-section">Jobs & Skills</div>
+  <a href="#job-match">POST /job/match</a>
+  <a href="#skills-gap">POST /skills/gap</a>
+  <div class="sidebar-section">Interview</div>
+  <a href="#interview">POST /interview/questions</a>
+  <div class="sidebar-section">Chat & Context</div>
+  <a href="#chat">POST /chat/completions</a>
+  <a href="#context">POST/GET /context</a>
+  <div class="sidebar-section">Developer</div>
+  <a href="#register">POST /developer/register</a>
+  <a href="#usage">GET /developer/usage</a>
+  <div class="sidebar-section">CSTM-2 (separate API)</div>
+  <a href="#cstm2">CareerEmbed overview</a>
+</aside>
+
+<main>
+  <h1>API Reference</h1>
+  <p class="page-sub">Base URL: <code>http://localhost:3005/v1</code> &nbsp;·&nbsp; Production: <code>https://api.careerstudiomax.com/v1</code></p>
+
+  <h2 id="auth">Authentication</h2>
+  <p>Pass your API key in the <code>X-Api-Key</code> header on every request.</p>
+  <div class="code-block"><div class="code-header">All requests</div>
+<pre>curl -H <span class="str">"X-Api-Key: csk_free_v1_..."</span> ...</pre></div>
+  <p>Key format: <code>csk_(live|test|free)_v1_[48 hex characters]</code>. Keys are shown once at creation — store them immediately. To rotate, use <code>POST /developer/keys/:id/rotate</code>.</p>
+
+  <h2 id="errors">Errors</h2>
+  <p>All errors return a consistent JSON envelope:</p>
+  <div class="code-block"><div class="code-header">Error shape</div>
+<pre>{
+  <span class="str">"error"</span>: {
+    <span class="str">"code"</span>:    <span class="str">"missing_cv_text"</span>,
+    <span class="str">"message"</span>: <span class="str">"cv_text is required"</span>,
+    <span class="str">"docs"</span>:    <span class="str">"https://careerstudiomax.com/api/docs#cv-score"</span>
+  }
+}</pre></div>
+  <table><tr><th>Code</th><th>HTTP</th><th>Meaning</th></tr>
+  <tr><td>invalid_api_key</td><td>401</td><td>Key not found or malformed</td></tr>
+  <tr><td>daily_limit_exceeded</td><td>429</td><td>Over daily request limit — resets at midnight UTC</td></tr>
+  <tr><td>rate_limit_exceeded</td><td>429</td><td>Over per-minute RPM limit — check Retry-After header</td></tr>
+  <tr><td>tier_required</td><td>403</td><td>Feature needs a higher plan</td></tr>
+  <tr><td>content_policy_violation</td><td>422</td><td>Request blocked by career ethics guardrails</td></tr>
+  <tr><td>model_unavailable</td><td>503</td><td>Career AI gateway is temporarily unreachable</td></tr>
+  <tr><td>request_timeout</td><td>504</td><td>Model inference timed out (60s limit)</td></tr>
+  </table>
+
+  <h2 id="rate-limits">Rate limits</h2>
+  <table><tr><th>Tier</th><th>Requests/day</th><th>RPM</th></tr>
+  <tr><td>FREE</td><td>1,000</td><td>10</td></tr>
+  <tr><td>PRO</td><td>10,000</td><td>60</td></tr>
+  <tr><td>PLUS</td><td>100,000</td><td>200</td></tr>
+  <tr><td>ENTERPRISE</td><td>Unlimited</td><td>1,000</td></tr>
+  </table>
+  <p>Daily counters reset at 00:00 UTC. RPM limits are per-key sliding windows. The <code>Retry-After</code> header on 429s gives seconds until reset.</p>
+
+  <h2 id="models">Models</h2>
+  <table><tr><th>Name</th><th>Speed</th><th>Quality</th><th>Tier</th><th>Max tokens</th></tr>
+  <tr><td>careerlm-flash</td><td>Fastest</td><td>Good</td><td>FREE+</td><td>300</td></tr>
+  <tr><td>careerlm-standard</td><td>Fast</td><td>Better</td><td>PRO+</td><td>1,500</td></tr>
+  <tr><td>careerlm-deep</td><td>Slower</td><td>Best</td><td>PLUS+</td><td>4,096</td></tr>
+  </table>
+
+  <!-- ───── CV SCORE ───── -->
+  <h2 id="cv-score">Score a CV</h2>
+  <div class="endpoint-header"><div class="method POST">POST</div><div class="path">/career/cv/score</div><div class="badge badge-free">FREE</div></div>
+  <p>Returns a structured ATS score, keyword gap analysis, section breakdown, and improvement suggestions.</p>
+  <h4>Request body</h4>
+  <table><tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr>
+  <tr><td>cv_text</td><td>string</td><td><span class="req">required</span></td><td>Full CV text</td></tr>
+  <tr><td>job_description</td><td>string</td><td>optional</td><td>Target job description (improves keyword match)</td></tr>
+  <tr><td>target_country</td><td>string</td><td>optional, default GB</td><td>ISO 3166-1 alpha-2 country code</td></tr>
+  <tr><td>target_role</td><td>string</td><td>optional</td><td>Explicit target role (overrides JD inference)</td></tr>
+  <tr><td>options.include_suggestions</td><td>boolean</td><td>optional, default true</td><td>Include top_suggestions array</td></tr>
+  </table>
+  <div class="code-block"><div class="code-header">JavaScript</div>
+<pre><span class="kw">const</span> score = <span class="kw">await</span> client.cv.<span class="fn">score</span>(cvText, jobDescription, { target_country: <span class="str">'NG'</span> })
+<span class="cm">// score.ats_score     → 87</span>
+<span class="cm">// score.grade         → "B+"</span>
+<span class="cm">// score.keyword_match → { matched: [...], missing: [...], coverage: 73 }</span>
+<span class="cm">// score.section_scores → { summary: 85, experience: 90, ... }</span>
+<span class="cm">// score.top_suggestions → ["Add Kubernetes", ...]</span></pre></div>
+  <div class="code-block"><div class="code-header">Response</div>
+<pre>{
+  <span class="str">"ats_score"</span>: <span class="num">87</span>,
+  <span class="str">"grade"</span>: <span class="str">"B+"</span>,
+  <span class="str">"keyword_match"</span>: {
+    <span class="str">"matched"</span>: [<span class="str">"Python"</span>, <span class="str">"AWS"</span>, <span class="str">"FastAPI"</span>],
+    <span class="str">"missing"</span>: [<span class="str">"Kubernetes"</span>, <span class="str">"Terraform"</span>],
+    <span class="str">"coverage"</span>: <span class="num">73</span>
+  },
+  <span class="str">"section_scores"</span>: { <span class="str">"summary"</span>: <span class="num">85</span>, <span class="str">"experience"</span>: <span class="num">90</span>, <span class="str">"skills"</span>: <span class="num">75</span>, <span class="str">"education"</span>: <span class="num">80</span> },
+  <span class="str">"top_suggestions"</span>: [<span class="str">"Add Kubernetes to skills section"</span>, ...],
+  <span class="str">"model"</span>: <span class="str">"careerlm-flash"</span>,
+  <span class="str">"request_id"</span>: <span class="str">"req_a1b2c3d4"</span>
+}</pre></div>
+
+  <!-- ───── SALARY ───── -->
+  <h2 id="salary-benchmark">Benchmark salary</h2>
+  <div class="endpoint-header"><div class="method POST">POST</div><div class="path">/career/salary/benchmark</div><div class="badge badge-starter">PRO</div></div>
+  <p>PPP-adjusted salary ranges for 196 countries. Returns skill premiums, negotiation target, and equity range.</p>
+  <h4>Request body</h4>
+  <table><tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr>
+  <tr><td>role</td><td>string</td><td><span class="req">required</span></td><td>Job title / career path</td></tr>
+  <tr><td>country</td><td>string</td><td>optional, default GB</td><td>ISO 3166-1 alpha-2</td></tr>
+  <tr><td>city</td><td>string</td><td>optional</td><td>City for local adjustment</td></tr>
+  <tr><td>years_experience</td><td>integer</td><td>optional</td><td>Years of experience</td></tr>
+  <tr><td>skills</td><td>string[]</td><td>optional</td><td>Skills to compute premiums for</td></tr>
+  <tr><td>options.currency</td><td>string</td><td>optional</td><td>ISO 4217 currency code (default: local)</td></tr>
+  </table>
+  <div class="code-block"><div class="code-header">Response</div>
+<pre>{
+  <span class="str">"salary_range"</span>: { <span class="str">"low"</span>: <span class="num">4200000</span>, <span class="str">"median"</span>: <span class="num">6800000</span>, <span class="str">"high"</span>: <span class="num">11000000</span> },
+  <span class="str">"currency"</span>: <span class="str">"NGN"</span>,
+  <span class="str">"usd_equivalent"</span>: { <span class="str">"median"</span>: <span class="num">4500</span> },
+  <span class="str">"skill_premiums"</span>: [{ <span class="str">"skill"</span>: <span class="str">"dbt"</span>, <span class="str">"premium_percent"</span>: <span class="num">12</span> }],
+  <span class="str">"negotiation_target"</span>: <span class="num">7500000</span>,
+  <span class="str">"negotiation_script"</span>: <span class="str">"Based on market data..."</span>,
+  <span class="str">"confidence"</span>: <span class="str">"high"</span>
+}</pre></div>
+
+  <!-- ───── COVER LETTER ───── -->
+  <h2 id="cover-letter">Generate cover letter</h2>
+  <div class="endpoint-header"><div class="method POST">POST</div><div class="path">/career/cover-letter/generate</div><div class="badge badge-starter">PRO</div></div>
+  <p>15 professional writing modes. No banned filler phrases. Structured return includes letter, mode name, and word count.</p>
+  <h4>Cover letter modes</h4>
+  <table><tr><th>Mode</th><th>Name</th><th>Best for</th></tr>
+  <tr><td>1</td><td>Achievement-led</td><td>Strong career track records</td></tr>
+  <tr><td>2</td><td>Insight-led</td><td>Strategy and leadership roles</td></tr>
+  <tr><td>3</td><td>Problem-solution</td><td>Pain-point-heavy job specs</td></tr>
+  <tr><td>4</td><td>Narrative</td><td>Storytelling-friendly brands</td></tr>
+  <tr><td>5</td><td>Company-specific</td><td>Deep research hooks</td></tr>
+  <tr><td>6</td><td>Question-led</td><td>Provocative openers</td></tr>
+  <tr><td>7</td><td>Bold statement</td><td>High-competition roles</td></tr>
+  <tr><td>8</td><td>Data-driven</td><td>Metrics-heavy CVs</td></tr>
+  <tr><td>9</td><td>Cultural fit</td><td>Values-first organisations</td></tr>
+  <tr><td>10</td><td>Career transition</td><td>Changing industries/roles</td></tr>
+  <tr><td>11</td><td>Promotion</td><td>Internal promotions</td></tr>
+  <tr><td>12</td><td>Referral</td><td>When referred by someone</td></tr>
+  <tr><td>13</td><td>Remote</td><td>Remote-first applications</td></tr>
+  <tr><td>14</td><td>Multilingual</td><td>Multi-market roles</td></tr>
+  <tr><td>15</td><td>Executive</td><td>C-suite / Director gravitas</td></tr>
+  </table>
+
+  <!-- ───── JOB MATCH ───── -->
+  <h2 id="job-match">Match job</h2>
+  <div class="endpoint-header"><div class="method POST">POST</div><div class="path">/career/job/match</div><div class="badge badge-starter">PRO</div></div>
+  <p>Multi-dimensional match score across skills, experience, salary, location, and culture signals. Returns apply recommendation.</p>
+
+  <!-- ───── SKILLS GAP ───── -->
+  <h2 id="skills-gap">Skills gap</h2>
+  <div class="endpoint-header"><div class="method POST">POST</div><div class="path">/career/skills/gap</div><div class="badge badge-starter">PRO</div></div>
+  <p>Quantified gap analysis with L1-L4 skill levels, learning hours, free resources, and salary ROI per skill acquired.</p>
+
+  <!-- ───── INTERVIEW ───── -->
+  <h2 id="interview">Interview questions</h2>
+  <div class="endpoint-header"><div class="method POST">POST</div><div class="path">/career/interview/questions</div><div class="badge badge-starter">PRO</div></div>
+  <p>Role and company-specific questions with STAR model answers, follow-up probes, and common mistakes to avoid.</p>
+
+  <!-- ───── CHAT ───── -->
+  <h2 id="chat">Career chat (OpenAI-compatible)</h2>
+  <div class="endpoint-header"><div class="method POST">POST</div><div class="path">/career/chat/completions</div><div class="badge badge-free">FREE</div></div>
+  <p>Drop-in OpenAI replacement. Same request/response shape. Change the base URL and model name — nothing else.</p>
+  <div class="code-block"><div class="code-header">Migration from OpenAI (1 change)</div>
+<pre><span class="cm">// Before:</span>
+<span class="kw">const</span> openai = <span class="kw">new</span> <span class="fn">OpenAI</span>({ apiKey: <span class="str">'sk-...'</span> })
+
+<span class="cm">// After:</span>
+<span class="kw">const</span> openai = <span class="kw">new</span> <span class="fn">OpenAI</span>({
+  apiKey:  <span class="str">'csk_free_v1_...'</span>,
+  baseURL: <span class="str">'http://localhost:3005/v1/career'</span>,
+  defaultHeaders: { <span class="str">'X-Api-Key'</span>: <span class="str">'csk_free_v1_...'</span> }
+})</pre></div>
+
+  <!-- ───── CONTEXT ───── -->
+  <h2 id="context">Career context (persistent memory)</h2>
+  <div class="endpoint-header"><div class="method POST">POST</div><div class="path">/career/context</div><div class="badge badge-free">FREE</div></div>
+  <div class="endpoint-header"><div class="method GET">GET</div><div class="path">/career/context/:id</div><div class="badge badge-free">FREE</div></div>
+  <p>World-first: persist the candidate's profile across API calls. Save once, pass <code>context_id</code> to every other endpoint for automatic personalisation.</p>
+  <div class="alert alert-info">💡 A context_id on /cv/score means the model knows the candidate's target role and country without you repeating them.</div>
+
+  <!-- ───── REGISTER ───── -->
+  <h2 id="register">Register developer</h2>
+  <div class="endpoint-header"><div class="method POST">POST</div><div class="path">/developer/register</div></div>
+  <p>No auth required. Returns your API key — shown once, store immediately.</p>
+  <div class="code-block"><div class="code-header">Response</div>
+<pre>{
+  <span class="str">"developer_id"</span>: <span class="str">"dev_abc123"</span>,
+  <span class="str">"api_key"</span>: <span class="str">"csk_free_v1_..."</span>,  <span class="cm">// shown once</span>
+  <span class="str">"tier"</span>: <span class="str">"FREE"</span>,
+  <span class="str">"daily_limit"</span>: <span class="num">1000</span>,
+  <span class="str">"docs"</span>: <span class="str">"http://localhost:3006/docs"</span>
+}</pre></div>
+
+  <!-- ───── USAGE ───── -->
+  <h2 id="usage">Usage stats</h2>
+  <div class="endpoint-header"><div class="method GET">GET</div><div class="path">/developer/usage/:developerId</div></div>
+  <p>Returns today's request count, remaining daily quota, RPM limit, and recent 10 calls with masked model names.</p>
+
+  <!-- ───── CSTM-2 (SEPARATE API) ───── -->
+  <h2 id="cstm2">CSTM-2 — a separate API, different base URL &amp; auth</h2>
+  <div class="alert alert-info">⚠️ Everything below is a genuinely different product from the CareerStudioMax Developer Cloud API documented above — different base URL, different authentication header, different key format and rate-limit tiers. It is not reachable via <code>X-Api-Key</code> or the <code>api.careerstudiomax.com</code> host. Treat it as a separate integration.</div>
+  <p>CSTM-2 is CareerStudioMax's own model API, served directly by the main platform. It's organised into per-capability key families (CareerLM, CareerEmbed, CareerScore, CareerAgent, CareerVoice, CareerVision, CareerWebAPI) — this page currently only documents <strong>CareerEmbed</strong>, the semantic-embedding family. For the live, authoritative list of every CSTM-2 family and endpoint, see <code>GET /api/cstm2/docs/models</code> or the self-documenting reference at <a href="https://careerstudiomax.com/developer">careerstudiomax.com/developer</a>.</p>
+  <p class="page-sub">Base URL: <code>https://careerstudiomax.com/api/cstm2</code></p>
+
+  <h3>Authentication</h3>
+  <p>Pass a CareerEmbed key (<code>cstm_em_*</code>, generated via the key-management UI at <a href="https://careerstudiomax.com/developer">careerstudiomax.com/developer</a>) as a Bearer token.</p>
+  <div class="code-block"><div class="code-header">All CSTM-2 requests</div>
+<pre>curl -H <span class="str">"Authorization: Bearer cstm_em_..."</span> ...</pre></div>
+
+  <h3 id="cstm2-embed">Create embeddings</h3>
+  <div class="endpoint-header"><div class="method POST">POST</div><div class="path">/v1/careerembed/embed</div></div>
+  <p>384-dimensional text embeddings (Xenova/all-MiniLM-L6-v2, served by careercamp-ai).</p>
+  <div class="code-block"><div class="code-header">JavaScript (careerlm/cstm2)</div>
+<pre><span class="kw">const</span> { CSTM2Client } = require(<span class="str">'careerlm/cstm2'</span>)
+<span class="kw">const</span> client = <span class="kw">new</span> <span class="fn">CSTM2Client</span>(<span class="str">'cstm_em_...'</span>)
+<span class="kw">const</span> result = <span class="kw">await</span> client.<span class="fn">embed</span>(<span class="str">'Senior Software Engineer, distributed systems'</span>)
+<span class="cm">// result.data[0].embedding → [0.0123, -0.045, ...]  (384 floats)</span></pre></div>
+
+  <h3 id="cstm2-similarity">Semantic similarity</h3>
+  <div class="endpoint-header"><div class="method POST">POST</div><div class="path">/v1/careerembed/similarity</div></div>
+  <p>Cosine similarity (0–1) between two texts.</p>
+  <table><tr><th>Field</th><th>Type</th><th>Required</th></tr>
+  <tr><td>text_a</td><td>string</td><td><span class="req">required</span></td></tr>
+  <tr><td>text_b</td><td>string</td><td><span class="req">required</span></td></tr>
+  </table>
+
+  <h3 id="cstm2-match-jobs">Semantic job matching</h3>
+  <div class="endpoint-header"><div class="method POST">POST</div><div class="path">/v1/careerembed/match-jobs</div></div>
+  <p>Ranks real, current listings from CareerStudioMax's live-harvested job feed (Adzuna, Reed, USAJOBS, Greenhouse, Lever, RemoteOK, Remotive, ArbeitNow, TheMuse, WeWorkRemotely, Jooble — never scraped or purchased data) by embedding cosine similarity to a given CV.</p>
+  <table><tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr>
+  <tr><td>cv_text</td><td>string</td><td><span class="req">required</span></td><td>Full CV text</td></tr>
+  <tr><td>country_code</td><td>string</td><td>optional</td><td>ISO alpha-2 — falls back to a global pool if omitted or uncovered</td></tr>
+  <tr><td>limit</td><td>integer</td><td>optional, default 10</td><td>Max 25</td></tr>
+  </table>
+  <div class="code-block"><div class="code-header">Response</div>
+<pre>{
+  <span class="str">"matches"</span>: [
+    { <span class="str">"title"</span>: <span class="str">"Senior Backend Engineer"</span>, <span class="str">"company"</span>: <span class="str">"Stripe"</span>, <span class="str">"matchScore"</span>: <span class="num">50</span>, <span class="str">"url"</span>: <span class="str">"..."</span>, <span class="str">"source"</span>: <span class="str">"greenhouse"</span> }
+  ],
+  <span class="str">"total_candidates_considered"</span>: <span class="num">65</span>,
+  <span class="str">"scoped_to_country"</span>: <span class="kw">true</span>,
+  <span class="str">"data_freshness"</span>: <span class="str">"Oldest listing considered: 9 day(s) old"</span>,
+  <span class="str">"model"</span>: <span class="str">"careerembed-v1"</span>
+}</pre></div>
+  <div class="code-block"><div class="code-header">Python (careerlm.cstm2)</div>
+<pre><span class="kw">from</span> careerlm.cstm2 <span class="kw">import</span> CSTM2Client
+client = <span class="fn">CSTM2Client</span>(api_key=<span class="str">"cstm_em_..."</span>)
+result = client.<span class="fn">match_jobs</span>(cv_text, country_code=<span class="str">"US"</span>, limit=<span class="num">10</span>)</pre></div>
+</main>
+
+<div class="toc">
+  <div class="toc-title">On this page</div>
+  <a href="#auth">Authentication</a>
+  <a href="#errors">Errors</a>
+  <a href="#rate-limits">Rate limits</a>
+  <a href="#models">Models</a>
+  <a href="#cv-score">CV score</a>
+  <a href="#salary-benchmark">Salary benchmark</a>
+  <a href="#cover-letter">Cover letter</a>
+  <a href="#job-match">Job match</a>
+  <a href="#skills-gap">Skills gap</a>
+  <a href="#interview">Interview</a>
+  <a href="#chat">Career chat</a>
+  <a href="#context">Context</a>
+  <a href="#register">Register</a>
+  <a href="#usage">Usage</a>
+  <a href="#cstm2">CSTM-2 (separate API)</a>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quickstart — CareerStudioMax Developer Cloud</title>
+<style>
+:root{--bg:#0a0a0f;--s:#12121a;--b:#1e1e2e;--t:#e2e8f0;--m:#94a3b8;--a:#6366f1;--ah:#818cf8;--g:#10b981;--cb:#0d1117;--f:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--mono:'Fira Code',Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t);font-family:var(--f);line-height:1.6}
+a{color:var(--a);text-decoration:none}a:hover{color:var(--ah)}
+nav{display:flex;justify-content:space-between;align-items:center;padding:16px 40px;border-bottom:1px solid var(--b);background:rgba(10,10,15,.95);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100}
+.logo{font-size:18px;font-weight:700}.logo span{color:var(--a)}
+.nav-links{display:flex;gap:24px;font-size:14px}.nav-links a{color:var(--m)}.nav-links a:hover{color:var(--t)}
+.btn{padding:8px 18px;border-radius:6px;font-size:14px;font-weight:500;cursor:pointer;border:none;display:inline-block}
+.btn-primary{background:var(--a);color:#fff}.btn-primary:hover{background:var(--ah);color:#fff}
+.layout{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 57px);max-width:1100px;margin:0 auto}
+.sidebar{padding:32px 0;border-right:1px solid var(--b);position:sticky;top:57px;height:calc(100vh - 57px);overflow-y:auto}
+.sidebar a{display:block;padding:6px 24px;font-size:14px;color:var(--m);border-left:2px solid transparent}
+.sidebar a:hover,.sidebar a.active{color:var(--a);border-left-color:var(--a);background:rgba(99,102,241,.05)}
+.sidebar-section{padding:16px 24px 8px;font-size:11px;font-weight:700;color:#475569;letter-spacing:.8px;text-transform:uppercase}
+main{padding:48px 60px;max-width:800px}
+h1{font-size:36px;font-weight:800;letter-spacing:-1px;margin-bottom:8px}
+.page-sub{font-size:16px;color:var(--m);margin-bottom:40px}
+h2{font-size:22px;font-weight:700;margin:40px 0 16px}
+h3{font-size:16px;font-weight:700;margin:24px 0 10px}
+p{color:var(--m);margin-bottom:16px;line-height:1.7}
+.step{display:grid;grid-template-columns:36px 1fr;gap:16px;margin-bottom:32px}
+.step-num{width:36px;height:36px;background:var(--a);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
+.code-block{background:var(--cb);border:1px solid var(--b);border-radius:8px;overflow:hidden;margin:16px 0}
+.code-header{padding:10px 16px;border-bottom:1px solid var(--b);font-size:12px;color:var(--m);display:flex;justify-content:space-between;align-items:center}
+.copy-btn{background:var(--s);border:1px solid var(--b);color:var(--m);padding:3px 10px;border-radius:4px;font-size:11px;cursor:pointer}
+.copy-btn:hover{color:var(--t);border-color:var(--a)}
+pre{padding:18px;font-family:var(--mono);font-size:13px;line-height:1.7;overflow-x:auto}
+.kw{color:#c084fc}.fn{color:#60a5fa}.str{color:#34d399}.cm{color:#64748b}.prop{color:#f8a4a8}
+code{font-family:var(--mono);font-size:13px;background:rgba(99,102,241,.1);color:var(--ah);padding:2px 6px;border-radius:4px}
+.alert{padding:14px 18px;border-radius:8px;font-size:14px;margin:16px 0;display:flex;gap:10px}
+.alert-info{background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.3);color:var(--ah)}
+.alert-success{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:#34d399}
+.key-form{display:flex;flex-direction:column;gap:12px;max-width:460px;margin:16px 0}
+.key-form input{background:var(--s);border:1px solid var(--b);color:var(--t);padding:10px 14px;border-radius:6px;font-size:14px;outline:none}
+.key-form input:focus{border-color:var(--a)}
+.key-form input::placeholder{color:var(--m)}
+.response-box{background:var(--cb);border:1px solid var(--b);border-radius:8px;padding:18px;font-family:var(--mono);font-size:13px;margin-top:16px;max-height:300px;overflow-y:auto;display:none}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">CareerStudioMax <span>Developer Cloud</span></a>
+  <div class="nav-links"><a href="/docs">Docs</a><a href="/playground">Playground</a><a href="/pricing">Pricing</a><a href="/dashboard">Dashboard</a></div>
+  <a href="/dashboard" class="btn btn-primary">Dashboard →</a>
+</nav>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-section">Getting Started</div>
+    <a href="#step1" class="active">1. Get your API key</a>
+    <a href="#step2">2. Install the SDK</a>
+    <a href="#step3">3. Score your first CV</a>
+    <a href="#step4">4. Benchmark salary</a>
+    <a href="#step5">5. Generate cover letter</a>
+    <div class="sidebar-section">Next Steps</div>
+    <a href="/docs">Full API reference</a>
+    <a href="/playground">Interactive playground</a>
+    <a href="/docs#sdks">SDK guides</a>
+  </aside>
+  <main>
+    <h1>Get started in 60 seconds</h1>
+    <p class="page-sub">From zero to your first career AI response in under a minute.</p>
+
+    <div class="step" id="step1">
+      <div class="step-num">1</div>
+      <div>
+        <h2 style="margin-top:0">Get your free API key</h2>
+        <p>Register with your email. No credit card needed. Key generated instantly — 1,000 free requests every day, permanently.</p>
+        <div class="key-form">
+          <input id="reg-name" type="text" placeholder="Your name">
+          <input id="reg-email" type="email" placeholder="you@example.com">
+          <button class="btn btn-primary" onclick="register()" style="width:fit-content">Get free API key →</button>
+        </div>
+        <div id="reg-result" class="response-box" style="color:#34d399"></div>
+      </div>
+    </div>
+
+    <div class="step" id="step2">
+      <div class="step-num">2</div>
+      <div>
+        <h2 style="margin-top:0">Install the SDK</h2>
+        <div class="code-block">
+          <div class="code-header">npm</div>
+          <pre>npm install careerlm</pre>
+        </div>
+        <div class="code-block">
+          <div class="code-header">pip</div>
+          <pre>pip install careerlm</pre>
+        </div>
+        <div class="alert alert-info">💡 Or use the REST API directly — no SDK needed. All examples show both.</div>
+      </div>
+    </div>
+
+    <div class="step" id="step3">
+      <div class="step-num">3</div>
+      <div>
+        <h2 style="margin-top:0">Score your first CV</h2>
+        <div class="code-block">
+          <div class="code-header">JavaScript</div>
+          <pre><span class="kw">const</span> { CareerLM } = <span class="fn">require</span>(<span class="str">'careerlm'</span>)
+<span class="kw">const</span> client = <span class="kw">new</span> <span class="fn">CareerLM</span>(<span class="str">'csk_free_v1_YOUR_KEY'</span>)
+
+<span class="kw">const</span> score = <span class="kw">await</span> client.cv.<span class="fn">score</span>(
+  <span class="str">'Ada Okonkwo\nSenior Python Developer\nPaystack 2021-2024...'</span>,
+  <span class="str">'We are hiring a Senior Python Engineer...'</span>
+)
+
+console.<span class="fn">log</span>(score.<span class="prop">ats_score</span>)               <span class="cm">// 87</span>
+console.<span class="fn">log</span>(score.<span class="prop">grade</span>)                  <span class="cm">// "B+"</span>
+console.<span class="fn">log</span>(score.<span class="prop">keyword_match</span>.<span class="prop">missing</span>)  <span class="cm">// ["Kubernetes"]</span>
+console.<span class="fn">log</span>(score.<span class="prop">top_suggestions</span>[0])    <span class="cm">// "Add Kubernetes to skills section"</span></pre>
+        </div>
+        <div class="code-block">
+          <div class="code-header">cURL</div>
+          <pre>curl -X POST http://localhost:3005/v1/career/cv/score \
+  -H <span class="str">"X-Api-Key: csk_free_v1_YOUR_KEY"</span> \
+  -H <span class="str">"Content-Type: application/json"</span> \
+  -d <span class="str">'{"cv_text":"Ada Okonkwo...","job_description":"..."}'</span></pre>
+        </div>
+        <div class="alert alert-success">✅ Free tier supports CV scoring with careerlm-flash (cs-haiku)</div>
+      </div>
+    </div>
+
+    <div class="step" id="step4">
+      <div class="step-num">4</div>
+      <div>
+        <h2 style="margin-top:0">Benchmark salary (196 countries)</h2>
+        <div class="code-block">
+          <div class="code-header">JavaScript</div>
+          <pre><span class="kw">const</span> salary = <span class="kw">await</span> client.salary.<span class="fn">benchmark</span>(<span class="str">'Data Engineer'</span>, <span class="str">'NG'</span>, {
+  city:             <span class="str">'Lagos'</span>,
+  years_experience: <span class="num">4</span>,
+  skills:           [<span class="str">'Python'</span>, <span class="str">'SQL'</span>, <span class="str">'dbt'</span>],
+  options: { currency: <span class="str">'NGN'</span> }
+})
+console.<span class="fn">log</span>(salary.<span class="prop">salary_range</span>.<span class="prop">median</span>)     <span class="cm">// 6800000</span>
+console.<span class="fn">log</span>(salary.<span class="prop">negotiation_target</span>)       <span class="cm">// 7500000</span>
+console.<span class="fn">log</span>(salary.<span class="prop">skill_premiums</span>)           <span class="cm">// [{ skill: "dbt", premium_percent: 12 }]</span></pre>
+        </div>
+        <div class="alert alert-info">💡 Salary benchmarking requires Starter tier (£19/month). <a href="/">See pricing →</a></div>
+      </div>
+    </div>
+
+    <div class="step" id="step5">
+      <div class="step-num">5</div>
+      <div>
+        <h2 style="margin-top:0">Generate a cover letter (15 modes)</h2>
+        <div class="code-block">
+          <div class="code-header">JavaScript</div>
+          <pre><span class="kw">const</span> letter = <span class="kw">await</span> client.coverLetter.<span class="fn">generate</span>(cvText, jobDesc, {
+  mode:         <span class="num">5</span>,          <span class="cm">// Company-specific research hook</span>
+  company_name: <span class="str">'Paystack'</span>,
+  tone:         <span class="str">'confident'</span>,
+  options: { word_limit: <span class="num">280</span> }
+})
+console.<span class="fn">log</span>(letter.<span class="prop">content</span>)   <span class="cm">// Full cover letter text</span>
+console.<span class="fn">log</span>(letter.<span class="prop">mode_name</span>) <span class="cm">// "Company-specific"</span></pre>
+        </div>
+        <p>Available modes: Achievement-led, Insight-led, Problem-solution, Narrative, Company-specific, Question-led, Bold statement, Data-driven, Cultural fit, Career transition, Promotion, Referral, Remote, Multilingual, Executive.</p>
+        <div style="margin-top:24px;padding:20px;background:var(--s);border:1px solid var(--b);border-radius:8px">
+          <p style="margin:0 0 12px;font-weight:600;color:var(--t)">What's next?</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <a href="/docs" class="btn btn-primary">Full API reference →</a>
+            <a href="/playground" class="btn" style="background:var(--b);color:var(--t)">Try the playground</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+const API = 'http://localhost:3005/v1';
+
+async function register() {
+  const name  = document.getElementById('reg-name').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const result = document.getElementById('reg-result');
+  if (!name || !email) { alert('Name and email required'); return; }
+  result.style.display = 'block';
+  result.textContent   = 'Creating your account...';
+  try {
+    const resp = await fetch(`${API}/developer/register`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email }),
+    });
+    const data = await resp.json();
+    if (resp.ok) {
+      result.textContent = `✅ Success!\n\nYour API key (save this now — shown once):\n\n${data.api_key}\n\nDaily limit: ${data.daily_limit} requests\nModel: careerlm-flash\n\nSave your key, then try the playground →`;
+    } else {
+      result.style.color = '#ef4444';
+      result.textContent = `Error: ${data.error?.message}`;
+    }
+  } catch (e) {
+    result.style.color = '#ef4444';
+    result.textContent = `Could not connect to API (is it running on port 3005?)\n${e.message}`;
+  }
+}
+</script>
+</body>
+</html>
