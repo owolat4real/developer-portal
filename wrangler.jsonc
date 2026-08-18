@@ -1,0 +1,15 @@
+{
+  // Pure static-asset deployment — no Worker script needed. server.js
+  // (the local dev Express server) maps clean URLs like /dashboard to
+  // dashboard.html and falls back to index.html for anything unmatched;
+  // html_handling/not_found_handling below replicate exactly that
+  // behavior using Cloudflare's built-in static asset serving instead of
+  // trying to run server.js itself (which isn't Workers-runtime code).
+  "name": "developer-portal",
+  "compatibility_date": "2026-08-18",
+  "assets": {
+    "directory": "./public",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "single-page-application"
+  }
+}
