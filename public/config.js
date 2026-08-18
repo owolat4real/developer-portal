@@ -6,4 +6,8 @@
 // environment build step needed for what's otherwise a plain static site.
 window.CS_API_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
   ? 'http://localhost:3005'
-  : 'https://api.careerstudiomax.com';
+  // NOT api.careerstudiomax.com — that domain already belongs to CSTM-2
+  // (cs_fixed), a separate product with its own real, SDK-documented base
+  // URL (12 generated client libraries hardcode it). This service gets
+  // its own subdomain to avoid colliding with it.
+  : 'https://careerlm-api.careerstudiomax.com';
