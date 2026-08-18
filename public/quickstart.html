@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Quickstart — CareerStudioMax Developer Cloud</title>
+<script src="/config.js"></script>
 <style>
 :root{--bg:#0a0a0f;--s:#12121a;--b:#1e1e2e;--t:#e2e8f0;--m:#94a3b8;--a:#6366f1;--ah:#818cf8;--g:#10b981;--cb:#0d1117;--f:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--mono:'Fira Code',Consolas,monospace}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -175,7 +176,7 @@ console.<span class="fn">log</span>(letter.<span class="prop">mode_name</span>) 
 </div>
 
 <script>
-const API = 'http://localhost:3005/v1';
+const API = (window.CS_API_BASE || 'http://localhost:3005') + '/v1';
 
 async function register() {
   const name  = document.getElementById('reg-name').value.trim();

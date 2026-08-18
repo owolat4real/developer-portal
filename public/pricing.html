@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Pricing — CareerStudioMax Developer Cloud</title>
+<script src="/config.js"></script>
 <script src="https://js.stripe.com/v3/"></script>
 <style>
 :root{--bg:#0a0a0f;--s:#12121a;--b:#1e1e2e;--t:#e2e8f0;--m:#94a3b8;--a:#6366f1;--ah:#818cf8;--g:#10b981;--r:#ef4444;--y:#f59e0b;--cb:#0d1117;--f:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--mono:'Fira Code','Cascadia Code',Consolas,monospace}
@@ -177,7 +178,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:16px 4
 </div>
 
 <script>
-const API = 'http://localhost:3005/v1';
+const API = (window.CS_API_BASE || 'http://localhost:3005') + '/v1';
 let session = null;
 let tiers = [];
 let stripe = null, cardElement = null, elements = null;
