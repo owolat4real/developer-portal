@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CV Score Compare — CareerStudioMax Developer Cloud</title>
+<meta name="description" content="Score two CV versions side by side and see exactly which dimensions improved, visualized as a real radar chart from /v1/career/cv/score.">
+<script src="/config.js"></script>
+<style>
+:root{--bg:#0a0a0f;--s:#12121a;--b:#1e1e2e;--t:#e2e8f0;--m:#94a3b8;--a:#6366f1;--ah:#818cf8;--g:#10b981;--r:#ef4444;--y:#f59e0b;--cb:#0d1117;--f:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--mono:'Fira Code',Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t);font-family:var(--f);line-height:1.6;min-height:100vh}
+a{color:var(--a);text-decoration:none}a:hover{color:var(--ah)}
+nav{display:flex;justify-content:space-between;align-items:center;padding:14px 32px;border-bottom:1px solid var(--b);background:rgba(10,10,15,.95);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100}
+.logo{font-size:17px;font-weight:700}.logo span{color:var(--a)}
+.nav-links{display:flex;gap:20px;font-size:14px}.nav-links a{color:var(--m)}.nav-links a:hover{color:var(--t)}
+.btn{padding:8px 18px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:6px}
+.btn-primary{background:var(--a);color:#fff}.btn-primary:hover{background:var(--ah)}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+#login-gate{max-width:420px;margin:80px auto;padding:0 20px;text-align:center}
+#login-gate p{color:var(--m);margin-bottom:20px}
+.wrap{max-width:1000px;margin:0 auto;padding:32px;display:none}
+h1{font-size:26px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px}
+.sub{color:var(--m);font-size:14px;margin-bottom:28px;max-width:600px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+.cv-col label{display:block;font-size:12.5px;font-weight:700;color:var(--m);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+textarea{width:100%;min-height:220px;background:var(--s);border:1px solid var(--b);color:var(--t);padding:12px;border-radius:8px;font-size:12.5px;font-family:var(--mono);resize:vertical}
+textarea:focus{outline:none;border-color:var(--a)}
+.err{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#f87171;padding:11px 14px;border-radius:8px;font-size:13px;margin-top:16px;display:none}
+#results{display:none;margin-top:36px}
+.score-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+.score-card{background:var(--s);border:1px solid var(--b);border-radius:12px;padding:20px;text-align:center}
+.score-card.after{border-color:rgba(16,185,129,.4)}
+.score-card .name{font-size:12px;color:var(--m);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.score-card .ats{font-size:40px;font-weight:800;font-family:var(--mono)}
+.score-card .grade{display:inline-block;margin-top:6px;padding:2px 10px;border-radius:6px;font-size:12px;font-weight:700;background:rgba(99,102,241,.15);color:var(--ah)}
+.delta{text-align:center;font-size:14px;color:var(--m);margin-bottom:28px}
+.delta .num{font-weight:800;font-family:var(--mono)}
+.delta .up{color:var(--g)}.delta .down{color:var(--r)}
+#radar-wrap{background:var(--s);border:1px solid var(--b);border-radius:12px;padding:20px;margin-bottom:24px}
+#radar-legend{display:flex;gap:20px;justify-content:center;margin-bottom:8px;font-size:12.5px}
+#radar-legend span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.suggestions{background:var(--s);border:1px solid var(--b);border-radius:12px;padding:20px}
+.suggestions h3{font-size:14px;margin-bottom:12px}
+.suggestions li{font-size:13px;color:var(--m);padding:6px 0;border-bottom:1px solid rgba(30,30,46,.6)}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">CareerStudioMax <span>Developer Cloud</span></a>
+  <div class="nav-links"><a href="/docs">Docs</a><a href="/playground">Playground</a><a href="/dashboard">Dashboard</a></div>
+</nav>
+
+<div id="login-gate">
+  <h1>Sign in to compare CVs</h1>
+  <p>This tool calls <code style="font-family:var(--mono)">/v1/career/cv/score</code> with your real key, twice.</p>
+  <a href="/dashboard" class="btn btn-primary">Sign in →</a>
+</div>
+
+<div class="wrap" id="app">
+  <h1>CV Score Compare</h1>
+  <p class="sub">Paste two versions of the same CV — see exactly which of the four scored dimensions actually improved, not just a bigger overall number.</p>
+
+  <div class="grid2">
+    <div class="cv-col">
+      <label>Before</label>
+      <textarea id="cv-before" placeholder="Paste the original CV text...">Software Engineer with 5 years experience. Worked on backend systems. Familiar with Python and databases. Team player, good communicator.</textarea>
+    </div>
+    <div class="cv-col">
+      <label>After</label>
+      <textarea id="cv-after" placeholder="Paste the revised CV text...">Senior Software Engineer, 5 years building backend systems for fintech products. Led migration of a monolithic Python service to microservices, cutting p95 latency 40%. Designed PostgreSQL schemas for 10M+ record datasets. Mentored 2 junior engineers.</textarea>
+    </div>
+  </div>
+
+  <button class="btn btn-primary" id="run-btn" onclick="runCompare()">Score both →</button>
+  <div class="err" id="err"></div>
+
+  <div id="results">
+    <div class="score-row">
+      <div class="score-card before"><div class="name">Before</div><div class="ats" id="ats-before">—</div><div class="grade" id="grade-before">—</div></div>
+      <div class="score-card after"><div class="name">After</div><div class="ats" id="ats-after">—</div><div class="grade" id="grade-after">—</div></div>
+    </div>
+    <div class="delta" id="delta"></div>
+
+    <div id="radar-wrap">
+      <div id="radar-legend">
+        <span><span class="dot" style="background:#818cf8"></span>Before</span>
+        <span><span class="dot" style="background:#10b981"></span>After</span>
+      </div>
+      <svg id="radar" width="100%" height="320" viewBox="0 0 400 320"></svg>
+    </div>
+
+    <div class="suggestions">
+      <h3>Top suggestions for the "before" version</h3>
+      <ul id="suggestions-list"></ul>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = (window.CS_API_BASE || 'http://localhost:3005') + '/v1';
+let session = null;
+
+function loadSession() {
+  try { session = JSON.parse(sessionStorage.getItem('clm_session')); } catch (_) { session = null; }
+  return !!(session?.developerId && session?.apiKey);
+}
+
+async function scoreCv(text) {
+  const res = await fetch(`${API}/career/cv/score`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Api-Key': session.apiKey },
+    body: JSON.stringify({ cv_text: text }),
+  });
+  const data = await res.json();
+  if (!res.ok || data.error) throw new Error(data.error?.message || `Scoring failed (${res.status})`);
+  return data;
+}
+
+/* ── RADAR CHART — real section_scores (summary/experience/skills/
+   education) plotted for both versions on the same axes. Hand-rolled
+   SVG, no external charting library. ── */
+const AXES = ['summary', 'experience', 'skills', 'education'];
+const AXIS_LABEL = { summary: 'Summary', experience: 'Experience', skills: 'Skills', education: 'Education' };
+
+function polarPoint(cx, cy, radius, angle) {
+  return { x: cx + radius * Math.cos(angle), y: cy + radius * Math.sin(angle) };
+}
+
+function drawRadar(before, after) {
+  const svg = document.getElementById('radar');
+  const cx = 200, cy = 155, maxR = 110;
+  const n = AXES.length;
+  const angleFor = i => (Math.PI * 2 * i) / n - Math.PI / 2;
+
+  let parts = '';
+
+  // Grid rings (25/50/75/100)
+  [0.25, 0.5, 0.75, 1].forEach(frac => {
+    let ring = '';
+    for (let i = 0; i <= n; i++) {
+      const p = polarPoint(cx, cy, maxR * frac, angleFor(i % n));
+      ring += `${i === 0 ? 'M' : 'L'}${p.x},${p.y} `;
+    }
+    parts += `<path d="${ring}" fill="none" stroke="#1e1e2e" stroke-width="1"/>`;
+  });
+
+  // Axis lines + labels
+  AXES.forEach((axis, i) => {
+    const p = polarPoint(cx, cy, maxR, angleFor(i));
+    parts += `<line x1="${cx}" y1="${cy}" x2="${p.x}" y2="${p.y}" stroke="#1e1e2e" stroke-width="1"/>`;
+    const lp = polarPoint(cx, cy, maxR + 24, angleFor(i));
+    parts += `<text x="${lp.x}" y="${lp.y}" fill="#94a3b8" font-size="12" text-anchor="middle" dominant-baseline="middle">${AXIS_LABEL[axis]}</text>`;
+  });
+
+  const shape = (scores, color, fillOpacity) => {
+    let d = '';
+    AXES.forEach((axis, i) => {
+      const val = Math.max(0, Math.min(100, scores?.[axis] ?? 0));
+      const p = polarPoint(cx, cy, (val / 100) * maxR, angleFor(i));
+      d += `${i === 0 ? 'M' : 'L'}${p.x},${p.y} `;
+    });
+    d += 'Z';
+    return `<path d="${d}" fill="${color}" fill-opacity="${fillOpacity}" stroke="${color}" stroke-width="2"/>`;
+  };
+
+  parts += shape(before, '#818cf8', 0.12);
+  parts += shape(after, '#10b981', 0.16);
+  svg.innerHTML = parts;
+}
+
+async function runCompare() {
+  if (!loadSession()) { document.getElementById('err').textContent = 'Session expired — sign in again.'; document.getElementById('err').style.display = 'block'; return; }
+  const btn = document.getElementById('run-btn');
+  const errEl = document.getElementById('err');
+  errEl.style.display = 'none';
+  btn.disabled = true; btn.textContent = 'Scoring both versions…';
+
+  try {
+    const [before, after] = await Promise.all([
+      scoreCv(document.getElementById('cv-before').value),
+      scoreCv(document.getElementById('cv-after').value),
+    ]);
+
+    document.getElementById('ats-before').textContent = before.ats_score ?? '—';
+    document.getElementById('ats-after').textContent = after.ats_score ?? '—';
+    document.getElementById('grade-before').textContent = before.grade || '—';
+    document.getElementById('grade-after').textContent = after.grade || '—';
+
+    const diff = (after.ats_score ?? 0) - (before.ats_score ?? 0);
+    const deltaEl = document.getElementById('delta');
+    deltaEl.innerHTML = diff === 0
+      ? 'No change in overall ATS score.'
+      : `<span class="num ${diff > 0 ? 'up' : 'down'}">${diff > 0 ? '+' : ''}${diff}</span> point${Math.abs(diff) === 1 ? '' : 's'} ${diff > 0 ? 'improvement' : 'decline'} in overall ATS score.`;
+
+    drawRadar(before.section_scores, after.section_scores);
+
+    const list = document.getElementById('suggestions-list');
+    const suggestions = before.top_suggestions || [];
+    list.innerHTML = suggestions.length
+      ? suggestions.map(s => `<li>${s}</li>`).join('')
+      : '<li>No specific suggestions returned.</li>';
+
+    document.getElementById('results').style.display = 'block';
+  } catch (e) {
+    errEl.textContent = e.message;
+    errEl.style.display = 'block';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Score both →';
+  }
+}
+
+if (loadSession()) {
+  document.getElementById('login-gate').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+}
+</script>
+</body>
+</html>
