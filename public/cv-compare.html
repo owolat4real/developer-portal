@@ -114,7 +114,10 @@ async function scoreCv(text) {
   });
   const data = await res.json();
   if (!res.ok || data.error) throw new Error(data.error?.message || `Scoring failed (${res.status})`);
-  return data;
+  // /v1/career/cv/score returns the score as a JSON string in `content`
+  // (per its own API contract), not as top-level fields — parse it here.
+  try { return JSON.parse(data.content); }
+  catch (_) { throw new Error('Scoring service returned an unusable result — please retry.'); }
 }
 
 /* ── RADAR CHART — real section_scores (summary/experience/skills/
