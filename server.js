@@ -6,7 +6,14 @@ const app     = express();
 const PORT    = process.env.PORTAL_PORT || 3006;
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.get('/docs/quickstart', (_, res) => res.sendFile(path.join(__dirname, 'public', 'quickstart.html')));
+// Was mounted at /docs/quickstart (not /quickstart) — matched nothing on
+// Cloudflare Pages production, which resolves clean URLs by filename
+// (quickstart.html -> /quickstart) and has no /docs/quickstart route at
+// all, so every "Get free API key" link on every page silently fell
+// through to the SPA fallback (the homepage) instead of the real,
+// working registration widget on this page. Local dev's own explicit
+// route mapping had been masking the mismatch.
+app.get('/quickstart', (_, res) => res.sendFile(path.join(__dirname, 'public', 'quickstart.html')));
 app.get('/docs',            (_, res) => res.sendFile(path.join(__dirname, 'public', 'docs.html')));
 app.get('/playground',      (_, res) => res.sendFile(path.join(__dirname, 'public', 'playground.html')));
 app.get('/cv-compare',      (_, res) => res.sendFile(path.join(__dirname, 'public', 'cv-compare.html')));
