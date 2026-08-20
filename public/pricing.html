@@ -227,7 +227,7 @@ function renderPlans() {
       : isCurrent ? 'Current plan'
       : `Upgrade to ${t.name}`;
     const ctaAction = t.id === 'FREE' ? `location.href='/docs/quickstart'`
-      : t.id === 'ENTERPRISE' ? `location.href='mailto:api@careerstudiomax.com?subject=Enterprise%20plan'`
+      : t.id === 'ENTERPRISE' ? `location.href='/contact?topic=partnership&plan=Enterprise'`
       : isCurrent ? ''
       : `startUpgrade('${t.id}')`;
     return `
