@@ -192,7 +192,7 @@ async function register() {
     });
     const data = await resp.json();
     if (resp.ok) {
-      result.textContent = `✅ Success!\n\nYour API key (save this now — shown once):\n\n${data.api_key}\n\nDaily limit: ${data.daily_limit} requests\nModel: careerlm-flash\n\nSave your key, then try the playground →`;
+      result.textContent = `✅ Success!\n\nYour Developer ID (needed to sign in to the dashboard):\n\n${data.developer_id}\n\nYour API key (save this now — shown once):\n\n${data.api_key}\n\nDaily limit: ${data.daily_limit} requests\nModel: careerlm-flash\n\nSave both, then try the playground →`;
     } else {
       result.style.color = '#ef4444';
       result.textContent = `Error: ${data.error?.message}`;
