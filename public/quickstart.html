@@ -118,7 +118,7 @@ console.<span class="fn">log</span>(score.<span class="prop">top_suggestions</sp
         </div>
         <div class="code-block">
           <div class="code-header">cURL</div>
-          <pre>curl -X POST http://localhost:3005/v1/career/cv/score \
+          <pre>curl -X POST https://careerlm-api.careerstudiomax.com/v1/career/cv/score \
   -H <span class="str">"X-Api-Key: csk_free_v1_YOUR_KEY"</span> \
   -H <span class="str">"Content-Type: application/json"</span> \
   -d <span class="str">'{"cv_text":"Ada Okonkwo...","job_description":"..."}'</span></pre>
@@ -130,7 +130,7 @@ console.<span class="fn">log</span>(score.<span class="prop">top_suggestions</sp
     <div class="step" id="step4">
       <div class="step-num">4</div>
       <div>
-        <h2 style="margin-top:0">Benchmark salary (196 countries)</h2>
+        <h2 style="margin-top:0">Benchmark salary (any country)</h2>
         <div class="code-block">
           <div class="code-header">JavaScript</div>
           <pre><span class="kw">const</span> salary = <span class="kw">await</span> client.salary.<span class="fn">benchmark</span>(<span class="str">'Data Engineer'</span>, <span class="str">'NG'</span>, {
@@ -143,7 +143,7 @@ console.<span class="fn">log</span>(salary.<span class="prop">salary_range</span
 console.<span class="fn">log</span>(salary.<span class="prop">negotiation_target</span>)       <span class="cm">// 7500000</span>
 console.<span class="fn">log</span>(salary.<span class="prop">skill_premiums</span>)           <span class="cm">// [{ skill: "dbt", premium_percent: 12 }]</span></pre>
         </div>
-        <div class="alert alert-info">💡 Salary benchmarking requires Starter tier (£19/month). <a href="/">See pricing →</a></div>
+        <div class="alert alert-info">💡 Salary benchmarking requires Pro tier ($19/month). <a href="/">See pricing →</a></div>
       </div>
     </div>
 
