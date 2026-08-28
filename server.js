@@ -19,6 +19,7 @@ app.get('/playground',      (_, res) => res.sendFile(path.join(__dirname, 'publi
 app.get('/cv-compare',      (_, res) => res.sendFile(path.join(__dirname, 'public', 'cv-compare.html')));
 app.get('/pricing',         (_, res) => res.sendFile(path.join(__dirname, 'public', 'pricing.html')));
 app.get('/dashboard',       (_, res) => res.sendFile(path.join(__dirname, 'public', 'dashboard.html')));
+app.get('/changelog',       (_, res) => res.sendFile(path.join(__dirname, 'public', 'changelog.html')));
 app.get('*',                (_, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 
 app.listen(PORT, () => console.log(`CareerStudioMax Developer Cloud → http://localhost:${PORT}`));

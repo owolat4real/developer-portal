@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Changelog — CareerStudioMax Developer Cloud</title>
+<meta name="description" content="Version history for CareerStudioMax Developer Cloud.">
+<link rel="canonical" href="https://dev.careerstudiomax.com/changelog">
+<style>
+:root{--bg:#0a0a0f;--s:#12121a;--el:#161622;--b:#1e1e2e;--t:#e2e8f0;--m:#94a3b8;--a:#6366f1;--ah:#818cf8;--g:#10b981;--f:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--mono:'Fira Code',Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--t);font-family:var(--f);line-height:1.6;min-height:100vh}
+a{color:var(--a);text-decoration:none}a:hover{color:var(--ah)}
+nav{display:flex;justify-content:space-between;align-items:center;padding:16px 40px;border-bottom:1px solid var(--b);position:sticky;top:0;background:rgba(10,10,15,.95);backdrop-filter:blur(12px);z-index:100}
+.logo{font-size:18px;font-weight:700}.logo span{color:var(--a)}
+.nav-links{display:flex;gap:24px;font-size:14px;color:var(--m);align-items:center}
+.nav-links a{color:var(--m)}.nav-links a:hover{color:var(--t)}
+.btn-primary{background:var(--a);color:#fff;padding:9px 18px;border-radius:6px;font-size:14px;font-weight:500}
+.wrap{max-width:760px;margin:0 auto;padding:60px 40px 100px}
+h1{font-size:36px;font-weight:800;letter-spacing:-1px;margin-bottom:10px}
+.lead{color:var(--m);font-size:15px;margin-bottom:48px}
+.entry{display:flex;gap:20px;margin-bottom:32px;padding-bottom:32px;border-bottom:1px solid var(--b)}
+.entry:last-child{border-bottom:none}
+.dot-col{display:flex;flex-direction:column;align-items:center;flex-shrink:0;padding-top:4px}
+.dot{width:11px;height:11px;border-radius:50%;background:var(--a)}
+.dot.minor{background:var(--m)}
+.entry-body h3{font-size:16px;margin-bottom:4px}
+.date{font-family:var(--mono);font-size:12px;color:var(--m);margin-bottom:8px}
+.entry-body p{color:var(--m);font-size:13.5px}
+.entry-body code{font-family:var(--mono);background:var(--el);color:var(--g);padding:1px 5px;border-radius:4px;font-size:12px}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">CareerStudioMax <span>Developer Cloud</span></a>
+  <div class="nav-links">
+    <a href="/quickstart">Quickstart</a>
+    <a href="/playground">Playground</a>
+    <a href="/pricing">Pricing</a>
+    <a href="https://api-platform-ubur.onrender.com/openapi.yaml">OpenAPI Spec</a>
+    <a href="/register" class="btn-primary">Get API key →</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <h1>Changelog</h1>
+  <p class="lead">Version history for CareerStudioMax Developer Cloud, the purpose-built career intelligence API.</p>
+
+  <div class="entry">
+    <div class="dot-col"><div class="dot"></div></div>
+    <div class="entry-body">
+      <h3>Key lifecycle, request IDs, and Idempotency-Key</h3>
+      <div class="date">2026-08-28</div>
+      <p>Revoking a key now removes it from your active key list immediately; calling delete on an already-revoked key permanently removes it, and revoked keys you never delete are cleaned up automatically after 90 days. Every response now carries an <code>X-Request-Id</code> header, rate-limit and quota errors carry an explicit <code>retryable</code> field, and <code>POST /register</code> supports an <code>Idempotency-Key</code> header. The OpenAPI spec — present in this repo since launch but never actually served — is now reachable at <code>/openapi.yaml</code>.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="dot-col"><div class="dot minor"></div></div>
+    <div class="entry-body">
+      <h3>Admin visibility for new signups</h3>
+      <div class="date">2026-08-24</div>
+      <p>New Developer Cloud accounts now generate a real-time admin alert and appear in the shared cross-platform audit log, matching what CAMP/CSTM-2/Transformer/CSVM already had.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="dot-col"><div class="dot"></div></div>
+    <div class="entry-body">
+      <h3>Endpoint audit, context wiring fixes</h3>
+      <div class="date">2026-08-22</div>
+      <p>A real endpoint audit script added; <code>context_id</code>/<code>target_country</code> now correctly flow into the scoring endpoints that were silently ignoring them.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="dot-col"><div class="dot"></div></div>
+    <div class="entry-body">
+      <h3>CQL (CareerStudio Query Language) — Phase 1</h3>
+      <div class="date">2026-08-20</div>
+      <p>A minimal, pipe-based query DSL over <code>/v1/career/*</code> launched at <code>/v1/cql</code>.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="dot-col"><div class="dot minor"></div></div>
+    <div class="entry-body">
+      <h3>Fixed: unparseable model output on schema-requesting endpoints</h3>
+      <div class="date">2026-08-19</div>
+      <p><code>/cv/score</code> and every other endpoint that requests structured JSON could return an unparseable, reasoning-prefixed string as if it were clean JSON. Fixed at the source.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="dot-col"><div class="dot"></div></div>
+    <div class="entry-body">
+      <h3>CareerStudioMax Developer Cloud launches</h3>
+      <div class="date">2026-08-18</div>
+      <p>The first release: 9 purpose-built career intelligence endpoints — CV scoring, optimisation, salary benchmarking, cover letters, job matching, interview prep, skill gap analysis, chat completions, and persistent career context.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
