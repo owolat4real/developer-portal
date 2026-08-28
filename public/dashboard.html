@@ -168,8 +168,8 @@ tr:last-child td{border-bottom:none}
   <!-- Danger zone -->
   <div class="card" style="border-color:rgba(239,68,68,.3)">
     <div class="card-title" style="color:#f87171">Danger zone</div>
-    <p style="font-size:13px;color:var(--m);margin-bottom:14px">Deleting your key immediately revokes all access. This cannot be undone.</p>
-    <button class="btn btn-danger" onclick="showDeleteModal()">Delete API key</button>
+    <p style="font-size:13px;color:var(--m);margin-bottom:14px">Revoking your key stops it working immediately and signs you out — since this key is also how you authenticate here, there's no follow-up step reachable from this page. Register a new developer account for a fresh key.</p>
+    <button class="btn btn-danger" onclick="showDeleteModal()" id="delete-key-btn">Revoke API key</button>
   </div>
 </div>
 
@@ -189,11 +189,11 @@ tr:last-child td{border-bottom:none}
 <!-- Delete confirm modal -->
 <div class="modal-overlay" id="delete-modal">
   <div class="modal">
-    <h3>Delete API key?</h3>
-    <p>This immediately revokes access for anything using this key. You can register a new developer account to get a fresh key.</p>
+    <h3>Revoke API key?</h3>
+    <p>This immediately revokes access for anything using this key and signs you out. You can register a new developer account to get a fresh key.</p>
     <div class="modal-actions">
       <button class="btn btn-outline" onclick="closeModal('delete-modal')">Cancel</button>
-      <button class="btn btn-danger" onclick="deleteKey()">Yes, delete key</button>
+      <button class="btn btn-danger" onclick="deleteKey()">Yes, revoke key</button>
     </div>
   </div>
 </div>
@@ -369,14 +369,14 @@ async function deleteKey() {
     });
     if (resp.ok) {
       closeModal('delete-modal');
-      alert('Key deleted. Signing out.');
+      alert('Key revoked. Signing out.');
       logout();
     } else {
       const d = await resp.json().catch(() => ({}));
-      alert(d?.error?.message || 'Delete failed');
+      alert(d?.error?.message || 'Revoke failed');
     }
   } catch (e) {
-    alert('Delete failed: ' + e.message);
+    alert('Revoke failed: ' + e.message);
   }
 }
 
