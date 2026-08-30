@@ -38,6 +38,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:14px 3
 .endpoint-list li:hover{background:rgba(99,102,241,.08)}
 .endpoint-list li.active{background:rgba(99,102,241,.12);color:var(--t)}
 .method-tag{font-size:10px;font-weight:700;font-family:var(--mono);padding:1px 5px;border-radius:3px}
+.pro-badge{font-size:9px;font-weight:700;letter-spacing:.4px;padding:1px 5px;border-radius:3px;background:rgba(245,200,66,.15);color:#f5c842;margin-left:auto}
 .POST{background:rgba(16,185,129,.15);color:#34d399}
 .GET{background:rgba(99,102,241,.15);color:var(--ah)}
 .timing{font-size:12px;color:#475569;display:none}
@@ -66,11 +67,11 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:14px 3
       <div class="panel-label">Endpoint</div>
       <ul class="endpoint-list" id="ep-list">
         <li class="active" data-ep="cv-score"><span class="method-tag POST">POST</span>/career/cv/score</li>
-        <li data-ep="cv-optimise"><span class="method-tag POST">POST</span>/career/cv/optimise</li>
-        <li data-ep="salary"><span class="method-tag POST">POST</span>/career/salary/benchmark</li>
-        <li data-ep="cover-letter"><span class="method-tag POST">POST</span>/career/cover-letter/generate</li>
+        <li data-ep="cv-optimise"><span class="method-tag POST">POST</span>/career/cv/optimise<span class="pro-badge">PRO</span></li>
+        <li data-ep="salary"><span class="method-tag POST">POST</span>/career/salary/benchmark<span class="pro-badge">PRO</span></li>
+        <li data-ep="cover-letter"><span class="method-tag POST">POST</span>/career/cover-letter/generate<span class="pro-badge">PRO</span></li>
         <li data-ep="job-match"><span class="method-tag POST">POST</span>/career/job/match</li>
-        <li data-ep="interview"><span class="method-tag POST">POST</span>/career/interview/questions</li>
+        <li data-ep="interview"><span class="method-tag POST">POST</span>/career/interview/questions<span class="pro-badge">PRO</span></li>
         <li data-ep="skills-gap"><span class="method-tag POST">POST</span>/career/skills/gap</li>
         <li data-ep="chat"><span class="method-tag POST">POST</span>/career/chat/completions</li>
         <li data-ep="register"><span class="method-tag POST">POST</span>/developer/register</li>
