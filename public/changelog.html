@@ -48,6 +48,15 @@ h1{font-size:36px;font-weight:800;letter-spacing:-1px;margin-bottom:10px}
   <div class="entry">
     <div class="dot-col"><div class="dot"></div></div>
     <div class="entry-body">
+      <h3>Fabrication guard on /cv/optimise and /cover-letter/generate</h3>
+      <div class="date">2026-08-30</div>
+      <p>Both endpoints now check generated content against every field you actually submitted before returning it — a claim, name, or number with no basis in your input (an invented employer, a fabricated statistic) is caught and the call retried once rather than shipped. A still-fabricating retry now fails honestly with <code>generation_fabrication_risk</code> (503, retryable) instead of returning unverified content. A related check catches dropped-word sentence fragments (a defect class independently confirmed live) and fails the same way. <code>/cv/optimise</code>'s own "add metrics where missing" option is preserved — the guard only blocks a fabricated employer/company name there, not a reasonable added metric, which is the endpoint's documented behavior. Also fixed: <code>prompt_tokens</code> was always reported as <code>0</code> (now a real estimate); a schema-parse failure was misclassified as <code>model_unavailable</code> (now the honest <code>generation_parse_error</code>); and <a href="https://api-platform-ubur.onrender.com/docs">/docs</a> now serves a real, styled page for the OpenAPI spec instead of a raw YAML dump.</p>
+    </div>
+  </div>
+
+  <div class="entry">
+    <div class="dot-col"><div class="dot"></div></div>
+    <div class="entry-body">
       <h3>Key lifecycle, request IDs, and Idempotency-Key</h3>
       <div class="date">2026-08-28</div>
       <p>Revoking a key now removes it from your active key list immediately; calling delete on an already-revoked key permanently removes it, and revoked keys you never delete are cleaned up automatically after 90 days. Every response now carries an <code>X-Request-Id</code> header, rate-limit and quota errors carry an explicit <code>retryable</code> field, and <code>POST /register</code> supports an <code>Idempotency-Key</code> header. The OpenAPI spec — present in this repo since launch but never actually served — is now reachable at <code>/openapi.yaml</code>.</p>
