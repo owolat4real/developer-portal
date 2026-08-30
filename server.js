@@ -20,6 +20,9 @@ app.get('/cv-compare',      (_, res) => res.sendFile(path.join(__dirname, 'publi
 app.get('/pricing',         (_, res) => res.sendFile(path.join(__dirname, 'public', 'pricing.html')));
 app.get('/dashboard',       (_, res) => res.sendFile(path.join(__dirname, 'public', 'dashboard.html')));
 app.get('/changelog',       (_, res) => res.sendFile(path.join(__dirname, 'public', 'changelog.html')));
+// Real, live-caught gap (2026-08-30): contact.html exists but had no
+// clean-URL route -- fell through to the SPA fallback (homepage).
+app.get('/contact',         (_, res) => res.sendFile(path.join(__dirname, 'public', 'contact.html')));
 app.get('*',                (_, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
 
 app.listen(PORT, () => console.log(`CareerStudioMax Developer Cloud → http://localhost:${PORT}`));
