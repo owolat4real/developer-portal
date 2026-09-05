@@ -3,6 +3,11 @@ require('dotenv').config();
 const express = require('express');
 const path    = require('path');
 const app     = express();
+
+// Pulled from public discovery 2026-09-05 (RunPod inference backend
+// offline pending cost) -- file-level noindex tags already cover the
+// real HTML pages; this blanket header also covers any JSON API routes.
+app.use((req, res, next) => { res.setHeader('X-Robots-Tag', 'noindex, nofollow'); next(); });
 const PORT    = process.env.PORTAL_PORT || 3006;
 
 app.use(express.static(path.join(__dirname, 'public')));
